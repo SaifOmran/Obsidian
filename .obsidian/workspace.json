@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#example",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +74,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -187,6 +188,7 @@
   },
   "active": "45018ca09733fd67",
   "lastOpenFiles": [
+    "ISM/New Text Document.txt",
     "ISM/ISM.md",
     "ISM",
     "Python/Python.md",
