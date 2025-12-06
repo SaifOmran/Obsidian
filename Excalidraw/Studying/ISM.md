@@ -55,4 +55,11 @@
 	- 2- LRU
 	- 3- pre fetch
 
-- 
+- Physical disks (storage box) --> Pool (from one storage box)--> *provisioning* --> LUN (from one storage box)
+- Over provisioning: 
+- Storage tiers:
+	- 1- flash tier (fastest)
+	- 2- HDD tier
+	- 3- hybrid tier
+- Tiering is applied on one storage box.
+- cache tiering = use some space of SSDs as cache memory like virtual memory concept.
