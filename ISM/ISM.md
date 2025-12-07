@@ -131,7 +131,7 @@
 - distributed file system model: each client has chunk of data and each one shares it (uTorrent) EX: Hadoop.
 ---
 # object storage
-- All objects are stored on the same line (flat storing), so we can get the data at the same time
+- All objects are stored on the same line (flat address space), so we can get the data at the same time
 - each object has:
 	- object = data.
 	- metadata = some info (owner, type, date, permissions).
