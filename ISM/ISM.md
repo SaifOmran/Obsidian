@@ -68,7 +68,7 @@
 - F-port: ports on SAN switch connected to storage box or server.
 - E-port: ports between SAN switches.
 - G-port: can be F or E.
-- HBA(front end controller) for storage box =HBA for the servers.
+- HBA (front end controller) for storage box = HBA for the servers.
 - HBA has WWN and NIC has MAC.
 - WWN = WWNN + WWPN.
 - WWN is is used for zoning process.
@@ -76,11 +76,64 @@
 ---
 # Day 3
 - Types of the storage
-	- 1- DAS: Direct attached storage (HDD, SSD)
-	- 2- SAN: Block-level storage (RAW without file system)
+	- 1- DAS: Direct attached storage (HDD, SSD).
+	- 2- SAN: Block-level storage (RAW without file system).
 		- How the data is transferred ? by FC-SAN and IP-SAN
-			- FC-SAN has 2 protocols: FC and FCoE
-			- IP-SAN has 2 protocols: ISCSI and FCIP
+			- FC-SAN has 2 protocols: FC and FCoE.
+			- IP-SAN has 2 protocols: ISCSI and FCIP.
 	- 3- NAS: uses TCP/IP models, we need only to understand some types of file systems.
-	- 4- Object: Data can be transferred through API
-	- 5- Unified: storage can understand block-level, TCP/IP and API
+	- 4- Object: Data can be transferred through API.
+	- 5- Unified: storage can understand block-level, TCP/IP and API.
+# FC
+- Most used.
+- Initiator = HBA (server).
+- Target = front-end port (Storage box).
+- Interconnecting device: SAN switch or SAN director.
+- FC uses FC layers which are lossless layers so the data can NOT be lost
+- FC pros:
+	- High performance due to low traffic in SAN fabric (only storage traffic) and the high capability pf the SAN switch (8G,16G).
+	- Reliable as it uses FC-layers.
+- FC cons:
+	- Expensive as all the components (SAN switch) were not existed in our environment.
+	- Complex: servers connected to storage boxes with L2 switches (for management) and SAN switch for data transfer.
+# ISCSI
+- used in start-ups
+- initiator:
+	- NIC + ISCSI SW: the server CPU handles ISCSI functionality and TCP/IP functionality.
+	- ToE: TCP offload engine. TCP functionality on ToE NIC and ISCSI handled by the server.
+	- ISCSI HBA: the server does NOT handle anything.
+	- Target: front end port
+	- interconnecting device: L2 switch
+	- ISCSI pros:
+		- No additional cost as the interconnecting devices are already exists in the data centre
+	- ISCSI cons:
+		- Network congestion.
+		- uses TCP lossy layers
+# FCIP
+- initiator: HBA (server).
+- target: front-end port (Storage box).
+- used to transfer data from site to site.
+- main component : FCIP gateway, it is put in each site and connected to the SAN switch in the site and between the sites there is a router.
+- FCIP gateway encapsulates FC frame into network frame to route it to the other site.
+# FCoE
+- initiator: converge network adapter (CNA) can act as NIC and HBA.
+- target: front-end port (Storage box).
+- interconnecting devices : FCoE switch can act as L2 switch and SAN switch.
+- Mix of FC and ISCSI as it uses the network physical layers from ISCSI as it is cheap (no need to additional devices) and FC-layers which are lossless for reliability.
+- we need CNA as it uses network layers (NIC) then FC-layers (HBA).
+- The network becomes converged enhanced ethernet (CEE).
+- FCoE is connected to SAN switch
+---
+# File system 
+- NAS: it is file sharing storage using TCP/IP stack.
+- Peer-to-peer file sharing model (P2P): clients share files with each others.
+- Client-server file sharing model : server decides the permissions and once someone opened the file it becomes locked for the rest EX: NFS,CIFS.
+- distributed file system model: each client has chunk of data and each one shares it (uTorrent) EX: Hadoop.
+---
+# object storage
+- All objects are stored on the same line (flat storing), so we can get the data at the same time
+- each object has:
+	- object = data.
+	- metadata = some info (owner, type, date, permissions).
+	- Defined attributes (key): for easy query.
+- Use API calls.
