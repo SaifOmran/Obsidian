@@ -73,3 +73,14 @@
 - WWN = WWNN + WWPN.
 - WWN is is used for zoning process.
 - WWN = HBA identifier = LUN identifier
+---
+# Day 3
+- Types of the storage
+	- 1- DAS: Direct attached storage (HDD, SSD)
+	- 2- SAN: Block-level storage (RAW without file system)
+		- How the data is transferred ? by FC-SAN and IP-SAN
+			- FC-SAN has 2 protocols: FC and FCoE
+			- IP-SAN has 2 protocols: ISCSI and FCIP
+	- 3- NAS: uses TCP/IP models, we need only to understand some types of file systems.
+	- 4- Object: Data can be transferred through API
+	- 5- Unified: storage can understand block-level, TCP/IP and API
