@@ -115,6 +115,10 @@ page 222
 - The server can access multiple LUNs, and the LUN can be accessed by different servers but they must have the same OS as one server of them will be able to install its file system.
 - When multiple servers access same LUN. it doesn't mean that they are seeing the data of each other, it means that when a server create VM, the VM files will be stored on this shared LUN and theses files are seen by the other servers not their content.
 - SAN zoning: connect servers to the storage only physically by opening channel between them.
+- Types of zoning:
+	- WWN zoning: gives flexibility as if the node port is changed, the server and storage system still see each other
+	- Port zoning: Uses the switch port ID to define zones, If a node is moved to another switch port in the fabric, port zoning must be modified to enable the node, in its new port.
+	- Mixed zoning: Combines the qualities of both WWN zoning and port zoning. Using mixed zoning enables a specific node port to be tied to the WWN of another node.
 - Practical steps:
 	- 1- Zoning (on SAN switch).
 	- 2- Create LUNs (on storage box).
@@ -126,9 +130,8 @@ page 222
 - A network whose primary purpose is the transfer of data between computer systems and storage devices and among storage devices.
 - It enables multiple compute systems to access and share storage resources.
 - the data transfer over SAN can be extended across geographic locations.
-- 
 ---
-
+## Types of ports on nodes and switches
 - N-port: node port on server or storage box.
 - F-port: ports on SAN switch connected to storage box or server.
 - E-port: ports between SAN switches.
@@ -166,12 +169,21 @@ page 222
 	- FC Switched Fabric (FC-SW): nodes do not share a loop. Instead, data is transferred through a dedicated path between the nodes.
 		- ![[Pasted image 20251210002903.png]]
 - FC uses FC layers which are lossless layers so the data can NOT be lost.
+	- ![[Pasted image 20251210003603.png]]
+- FC addressing: it is made in the FC-2, where the SCSI commands are encapsulated to frame.
+	- Used for communication between nodes in an FC SAN.
+	- Main purpose of an FC address is routing data through the fabric.
+	- FC address size is 24 bits:![[Pasted image 20251210004249.png]]
+		- A domain ID is a unique number that is provided to each switch in the fabric.
+		- The area ID is used to identify a group of switch ports that are used for connecting nodes.
+		- The port ID is used to identify a specific port in the group on the switch.
 - FC pros:
 	- High performance due to low traffic in SAN fabric (only storage traffic) and the high capability of the SAN switch (8G,16G).
 	- Reliable as it uses FC-layers.
 - FC cons:
 	- Expensive as all the components (SAN switch + HBA that encapsulates and de-encapsulates the storage traffic) were not existed in our environment.
 	- Complex: servers connected to storage boxes with L2 switches (for management) and SAN switch for data transfer.
+- SCSI command -> FCP -> FC frame
 ## ISCSI
 - used in start-ups
 - initiator:
@@ -185,12 +197,17 @@ page 222
 	- ISCSI cons:
 		- Network congestion.
 		- uses TCP lossy layers.
+- ![[Pasted image 20251210012818.png]]
+- 
+---
 ## FCIP
 - initiator: HBA (server).
 - target: front-end port (Storage box).
 - used to transfer data from site to site.
 - main component : FCIP gateway, it is put in each site and connected to the SAN switch in the site and between the sites there is a router.
 - FCIP gateway encapsulates FC frame into network frame to route it to the other site.
+- ![[WhatsApp Image 2025-12-09 at 23.08.11_0b940bc1 1.jpg]]
+- 
 ## FCoE
 - initiator: converge network adapter (CNA) can act as NIC and HBA.
 - target: front-end port (Storage box).
