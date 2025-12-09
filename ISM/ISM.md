@@ -72,7 +72,8 @@ page 222
 ## Storage provisioning
 - The process of assigning storage resources to compute systems based on capacity, availability and performance requirements.
 - LUN: logical unit which created from a RAID set and it has unique ID.
-- LUNs are spread across all the physical drives that belong to that set.
+- LUNs are spread across all the physical drives that belong to that set and can be assigned for different servers.
+- Why does the LUN consist from more than 1 disk ? to increase the performance as if the controller receives 50 I/O requests in a second the controller can handle them at the same time but the disk will handle them sequential, so if LUN from different disks the 50 I/O request will be handled parallel by those disks.
 - In non-virtualized environment LUN appears as a raw storage drive to the operating system. To make this drive usable, it is formatted with a file system and then the file system is mounted.
 - In virtualized environment there is 2 methods:
 	- 1- LUN Assigned to the Hypervisor (Most Common Method)
@@ -107,7 +108,19 @@ page 222
 	- ![[Pasted image 20251208192914.png]]
 - Tiering is applied on one storage box.
 - cache tiering = use some space of SSDs as cache memory like virtual memory concept.
+---
+## Zoning
+- Zoning is the first step to make a server connects the storage through SAN switch.
+- In zoning we configure (on SAN switch) which compute server connects to which storage box(es), then we configure which LUNs can the server accesses (LUN masking).
+- The server can access multiple LUNs, and the LUN can be accessed by different servers but they must have the same OS as one server of them will be able to install its file system.
+- When multiple servers access same LUN. it doesn't mean that they are seeing the data of each other, it means that when a server create VM, the VM files will be stored on this shared LUN and theses files are seen by the other servers not their content.
 - SAN zoning: connect servers to the storage only physically by opening channel between them.
+- Practical steps:
+	- 1- Zoning (on SAN switch).
+	- 2- Create LUNs (on storage box).
+	- 3- LUN masking (on storage box).
+	- 4- Create the file system (on server).
+	- 5- Create VM (on server).
 - N-port: node port on server or storage box.
 - F-port: ports on SAN switch connected to storage box or server.
 - E-port: ports between SAN switches.
@@ -121,13 +134,14 @@ page 222
 # Day 3
 - Types of the storage
 	- 1- DAS: Direct attached storage (HDD, SSD).
-	- 2- SAN: Block-level storage (RAW without file system).
+	- 2- SAN: Produce block-level storage (RAW without file system).
 		- How the data is transferred ? by FC-SAN and IP-SAN
 			- FC-SAN has 2 protocols: FC and FCoE.
 			- IP-SAN has 2 protocols: ISCSI and FCIP.
-	- 3- NAS: uses TCP/IP models, we need only to understand some types of file systems.
-	- 4- Object: Data can be transferred through API.
-	- 5- Unified: storage can understand block-level, TCP/IP and API.
+	- 3- NAS: produce file-level storage or file sharing uses TCP/IP models, we need only to understand some types of file systems (NTFS, EXT3, EXT4).
+	- 4- Object: storage can communicate through API.
+	- 5- Unified: storage can understand block-level, file-level and API.
+	- The controller decides the type of the storage if it is SAN, NAS, object or unified.
 # FC
 - Most used.
 - Initiator = HBA (server).
