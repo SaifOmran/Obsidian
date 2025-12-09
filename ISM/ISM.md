@@ -122,6 +122,12 @@ page 222
 	- 4- Create the file system (on server).
 	- 5- Create VM (on server).
 ---
+## SAN
+- A network whose primary purpose is the transfer of data between computer systems and storage devices and among storage devices.
+- It enables multiple compute systems to access and share storage resources.
+- the data transfer over SAN can be extended across geographic locations.
+- 
+---
 
 - N-port: node port on server or storage box.
 - F-port: ports on SAN switch connected to storage box or server.
@@ -144,19 +150,29 @@ page 222
 	- 4- Object: storage can communicate through API.
 	- 5- Unified: storage can understand block-level, file-level and API.
 	- The controller decides the type of the storage if it is SAN, NAS, object or unified.
-# FC
+## FC
 - Most used.
-- Initiator = HBA (server).
+- Initiator = HBA (server) has SCSI-to-FC processing capability. It encapsulates operating system or hypervisor storage I/Os (usually SCSI I/O) into FC frames before sending the frames to the FC storage systems over an FC SAN.
 - Target = front-end port (Storage box).
-- Interconnecting device: SAN switch or SAN director.
+- Interconnecting device:
+	- FC hub: used as communication devices in Fibre Channel Arbitrated Loop
+	- FC switch (SAN switch): are more intelligent than FC hubs and directly route data from one physical port to another.
+	- FC director: are high-end switches with a higher port count. A director has a modular architecture and its port count is scaled-up by inserting extra line cards or blades to the director’s chassis.
+- connection types between the server and the storage box:
+	- Point-to-point: without any intermediate device, bad option due to limited number of connection ports.
+		![[Pasted image 20251210002428.png]]
+	- FC Arbitrated Loop (FC-AL): the devices are attached to a shared loop. Each device compete with other devices to perform I/O operations, at any given time, only one device can perform I/O operations on the loop. Because each device in a loop must wait for its turn.
+		- ![[Pasted image 20251210002715.png]]
+	- FC Switched Fabric (FC-SW): nodes do not share a loop. Instead, data is transferred through a dedicated path between the nodes.
+		- ![[Pasted image 20251210002903.png]]
 - FC uses FC layers which are lossless layers so the data can NOT be lost.
 - FC pros:
-	- High performance due to low traffic in SAN fabric (only storage traffic) and the high capability pf the SAN switch (8G,16G).
+	- High performance due to low traffic in SAN fabric (only storage traffic) and the high capability of the SAN switch (8G,16G).
 	- Reliable as it uses FC-layers.
 - FC cons:
-	- Expensive as all the components (SAN switch) were not existed in our environment.
+	- Expensive as all the components (SAN switch + HBA that encapsulates and de-encapsulates the storage traffic) were not existed in our environment.
 	- Complex: servers connected to storage boxes with L2 switches (for management) and SAN switch for data transfer.
-# ISCSI
+## ISCSI
 - used in start-ups
 - initiator:
 	- NIC + ISCSI SW: the server CPU handles ISCSI functionality and TCP/IP functionality.
@@ -169,13 +185,13 @@ page 222
 	- ISCSI cons:
 		- Network congestion.
 		- uses TCP lossy layers.
-# FCIP
+## FCIP
 - initiator: HBA (server).
 - target: front-end port (Storage box).
 - used to transfer data from site to site.
 - main component : FCIP gateway, it is put in each site and connected to the SAN switch in the site and between the sites there is a router.
 - FCIP gateway encapsulates FC frame into network frame to route it to the other site.
-# FCoE
+## FCoE
 - initiator: converge network adapter (CNA) can act as NIC and HBA.
 - target: front-end port (Storage box).
 - interconnecting devices : FCoE switch can act as L2 switch and SAN switch.
@@ -184,23 +200,23 @@ page 222
 - The network becomes converged enhanced ethernet (CEE).
 - FCoE is connected to SAN switch
 ---
-# File system 
+## File system 
 - NAS: it is file sharing storage using TCP/IP stack.
 - Peer-to-peer file sharing model (P2P): clients share files with each others.
 - Client-server file sharing model : server decides the permissions and once someone opened the file it becomes locked for the rest EX: NFS,CIFS.
 - distributed file system model: each client has chunk of data and each one shares it (uTorrent) EX: Hadoop.
 ---
-# Object storage
+## Object storage
 - All objects are stored on the same line (flat address space), so we can get the data at the same time
 - each object has:
 	- object = data.
 	- metadata = some info (owner, type, date, permissions).
 	- Defined attributes (key): for easy query.
 - Use API calls.
-# Unified storage
+## Unified storage
 - can serve block-level (SAN) ,file-level (NAS), object-level (OSD).
 ---
-# Business continuity
+## Business continuity
 - information availability (IA): ensure that the info is available, accessible in timeliness and consistent (info integrity).
 - SLA = service level agreement.
 - MTBF: mean time between failures = total uptime / no # fail.
