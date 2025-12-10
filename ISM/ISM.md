@@ -193,17 +193,32 @@ page 222
 	- Complex: servers connected to storage boxes with L2 switches (for management) and SAN switch for data transfer.
 - SCSI command -> FCP -> FC frame
 ## ISCSI
-- used in start-ups
+- Used in start-ups as it is cheap and easy to implement.
 - initiator:
 	- NIC + ISCSI SW: the server CPU handles ISCSI functionality and TCP/IP functionality.
-	- ToE: TCP offload engine. TCP functionality on ToE NIC and ISCSI handled by the server.
-	- ISCSI HBA: the server does NOT handle anything.
+	- TOE NIC + ISCSI SW: TCP offload engine. TCP functionality on ToE NIC and ISCSI handled by the server.
+	- ISCSI HBA: Performs both iSCSI and TCP/IP processing, the server does NOT handle anything, frees-up CPU cycles of compute system for business applications.
 	- Target: front end port.
-	- interconnecting device: L2 switch.
+	- interconnecting device: L2 switch (Ethernet LAN).
 	- IP-based protocol that enables transporting SCSI data over an IP network
 	- Encapsulates SCSI I/O into IP packets and transports them using TCP/IP
 	- IP-based protocol that is used to interconnect distributed FC SAN islands over an IP network.
 	- Encapsulates FC frames onto IP packet and transports over existing IP network
+- iSCSI Connectivity:
+	- 1- Native
+		- iSCSI initiators connect to iSCSI targets directly/through IP network  No FC component
+		- No FC component
+		- ![[Pasted image 20251210215550.png]]
+	- 2- Bridged
+		- iSCSI initiators are attached to IP network
+		- Storage systems are attached to FC SAN
+		- iSCSI gateway provides bridging functionality (iSCSI-to-FC bridging functionality), we can need it if there is a server wants to connect to existing SAN fabric.
+		- The gateway converts IP packets to FC frames and conversely
+		- The iSCSI initiator is configured with the gateway’s IP address as its target destination. On the other side, the gateway is configured as an FC initiator to the storage system.
+		- ![[Pasted image 20251210215601.png]]
+		- 3- Mix (FC + Native ISCSI)
+			- A storage system typically comes with both FC and iSCSI ports. The combination enables both the native iSCSI connectivity and the FC connectivity in the same environment and **no bridge device is needed**.
+			- ![[Pasted image 20251210220728.png]]
 	- ISCSI pros:
 		- No additional cost as the interconnecting devices are already exists in the data centre (inexpensive).
 		- Easy to implement.
