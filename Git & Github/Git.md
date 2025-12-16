@@ -176,8 +176,62 @@ git diff --staged
 
 >Every command relative to the repo and the staging area we will use *--staged* for most cases.
 
-- we can type the commit message using Vim editor
+- We can type the commit message using Vim editor
 ```Git
 git commit
 #then the vim will open (or the configured text editor)
+```
+
+- To show the summary of commit logs
+```Git
+git log --oneline
+```
+![[Pasted image 20251216204804.png]]
+
+- To show the summary of just last 2 commits
+```Git
+git log --oneline -2
+```
+![[Pasted image 20251216204902.png]]
+
+- To show the summary of specific file named file.txt commits
+```Git
+git log --oneline file.txt
+```
+![[Pasted image 20251216204936.png]]
+
+- To show the changes of specific commit
+```Git
+git show <SHA-1 of commit>
+```
+![[Pasted image 20251216205015.png]]
+
+>This command likes traversing through the commit then tree then blob using git cat-file **SHA-1 value of each object**
+
+- To show the differences between 2 commits
+```Git
+git diff <SHA-1 of first commit>..<SHA-1 of second commit>
+```
+![[Pasted image 20251216205530.png]]
+
+---
+### Undoing things
+- To unstage (untrack) file after staging (tracking) it by mistake we use
+```Git
+git rm --cached <file>
+```
+
+![[Pasted image 20251216210401.png]]
+
+- If we modified the file and then we decided that those modifications are not right and we need to remove them we use
+```Git
+git restore <file>
+```
+it will compare the modified file with file in the staging area and discard the modifications.
+> It is used in case we want to discard the changes before staging the file.
+
+- What if we staged the file and then we want to discard the changes ? in this situation we lost the version in the staging area that was compared with the modified file in working tree, but we can unstage the file with special command and then restore it, we use
+```Git
+git restore --staged <file>
+git restore <file>
 ```

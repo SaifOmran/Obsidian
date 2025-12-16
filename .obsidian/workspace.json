@@ -20,16 +20,6 @@
               "icon": "lucide-file",
               "title": "Git"
             }
-          },
-          {
-            "id": "2b989718c2e26010",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
-            }
           }
         ]
       }
@@ -195,23 +185,24 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9af9e0418cc0bfc2",
+  "active": "0fafcd16c38a815b",
   "lastOpenFiles": [
+    "Pasted image 20251216210401.png",
+    "Pasted image 20251216205530.png",
+    "Pasted image 20251216205015.png",
+    "Pasted image 20251216204936.png",
+    "Pasted image 20251216204902.png",
+    "Git & Github/Pasted image 20251216204759.png",
     "Git & Github/Git.md",
+    "Git & Github/Pasted image 20251216204804.png",
     "Git & Github/Pasted image 20251216190153.png",
     "Pasted image 20251216190149.png",
     "Pasted image 20251216190145.png",
     "Pasted image 20251216190125.png",
-    "Git & Github/Pasted image 20251216010147.png",
-    "Git & Github/Pasted image 20251216010011.png",
     "Excalidraw/Drawing 2025-12-16 00.51.41.excalidraw.md",
-    "Git & Github/Pasted image 20251216005424.png",
     "Excalidraw/Drawing 2025-12-16 00.59.16.excalidraw.md",
     "Excalidraw/Drawing 2025-12-15 23.26.51.excalidraw.md",
-    "Git & Github/Pasted image 20251215233002.png",
     "Excalidraw",
-    "Git & Github/Pasted image 20251215232119.png",
-    "Git & Github/Pasted image 20251215224459.png",
     "Linux/Linux.md",
     "Linux",
     "ISM/ISM.md",
