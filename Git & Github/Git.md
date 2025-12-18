@@ -341,3 +341,6 @@ git branch -d <branch-name>
 
 - Here the merging is different as it is not linear merge, so git is creating a new commit to merge the branches and make the line linear again, and this is called 3-way commit.
 ![[Pasted image 20251219011940.png]]
+---
+### Working with remote
+3:41:00
