@@ -343,4 +343,89 @@ git branch -d <branch-name>
 ![[Pasted image 20251219011940.png]]
 ---
 ### Working with remote
-3:41:00
+- If a team working on a project and they want to share the project between us and if anyone made any modification on the project the other see it, they must use version control like git.
+
+- How can we get the repo of the project onto our local machine, we use
+```Git
+  git clone <repo>
+  ```
+
+- To see the remote repos, we use
+```Git
+git remote
+git remote -v #to see more details
+```
+
+- If the remote repo change after cloning, you will not see the changes until you fetch them (In the next image I have modified the file in the remote repo and I have typed *git status* on local repo and It said that it is up to date which is not right.
+
+![[Pasted image 20251220163847.png]]
+
+- To get the changes to local repo, we use
+```Git
+git fetch origin
+```
+this command will only get the changes onto the local repo, but they will not be merged to your current repo.
+
+
+- After fetching the changes, I have typed *git status* which showing that there is 1 commit on remote repo and my local repo is behind it.
+![[Pasted image 20251220164048.png]]
+
+- To fast-forward and have the same copy of the remote repo, we use
+```Git
+git merge
+```
+
+	 
+
+- To see the branches of the remote repo
+```Git
+git branch -r
+```
+
+![[Pasted image 20251220163318.png]]
+
+- We can clone more than 1 repo, to add another repo we use
+```Git
+git remote add <repo>
+```
+
+- In the typical workflow you clone the repo and you make a local branch to add the changes on it, then you push that all to the remote repo and the admin may approve the changes or not.
+- When you make the local branch, if you made anything on it and used *git status* you would not see that your are ahead of the origin or behind it, because your local branch is not existed in the origin, so there is nothing to compare your local branch with.
+- Now we want to push the changes we made on our local branch to the origin, if we used
+```Git
+git push origin
+```
+it will show an error as there is no branch to synchronize with as we explained above.
+so we use the next command only for the first time we are pushing a new local branch to the remote repo
+```Git
+git push -u origin <name of the branch>
+```
+this command will create a branch on the remote repo (origin) and push the changes on it.
+
+- To see the differences between the origin main branch and the pushed branch
+```Git
+git diff main..<branch>
+```
+or
+```Git
+git switch <branch>
+```
+
+- After pushing the local branch we will notice that if we use *git branch* on the remote repo, we will see it.
+
+- We saw previous to fetch the changes on the origin we use 2 commands, *git fetch origin* and *git merge*, we can do this by using only 1 command
+```Git
+git pull origin
+```
+
+- If we use
+```Git
+git branch -vv
+```
+it will show us the branches on our local repo and the branches on the origin that will be compared to them, In another words git will know where to push and pull the changes on each branch
+![[Pasted image 20251220174746.png]]
+so any push or pull on local branch "feature" will be synchronized with the origin branch "feature", same thing for the main branch.
+
+---
+### Git in VS code
+4:17:00
