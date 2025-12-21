@@ -8,14 +8,14 @@
 ### Git architecture
 - The environment we work on it is called *working directory*, which contains only the file we work on.
 - After any change in the file in working directory, we store the old version in *Git repository*.
-- In the end the git repo with be in a hidden folder called *.git* and all of them will be in the working directory and it will be called repo.
+- In the end the git repo with be in a hidden folder called *.git* and all of them will be in the working directory, and it will be called repo.
 	- Working directory (repo) -> .git -> git repo -> versions.
 - So, the working directory contains only the latest version and git repo has all versions except the latest one.
 - As an architect, what do you think how the requirements of git were ?
 	- Track everything: files, folders, metadata.
-	- OS independent: compatible with Windows, Linux, MacOS and any other OS, and it is implemented by making git as a folder that can be read by any OS.
-	- Unique ID: every object (file, folder) in git should has unique ID for easier tracking, and it can be made using hashing algorithm like SHA-1 or MD5 which are deterministic.
-		- When git is hashing an object it adds some info and then hashing them all, the added info are the type of object, the size of the object, null value.
+	- OS independent: compatible with Windows, Linux, macOS and any other OS, and it is implemented by making git as a folder that can be read by any OS.
+	- Unique ID: every object (file, folder) in git should have unique ID for easier tracking, and it can be made using hashing algorithm like SHA-1 or MD5 which are deterministic.
+		- When git is hashing an object it adds some info and then hashing them all, the added info is the type of object, the size of the object, null value.
 		- ![[Pasted image 20251214001508.png]]
 	- Track history (Logs): track who made what, which version is older and everything
 		- git knows there is a change on object by comparing the old SHA-1 result of the object and the new SHA-1, if there is any difference git will register the old version in the repo, if there is not any change git will not do anything. 
@@ -35,14 +35,14 @@
 ```Git
 	git add
 ```
-- here the file is tracked and there is a SHA-1 key is created for it and it is in the staging area file and also in the repo file (.git).
+- here the file is tracked and there is a SHA-1 key is created for it, and it is in the staging area file and also in the repo file (.git).
 - we still also don't have the first snapshot or first version of the file, to make the first snapshot or version we use
  ```Git
 	 git commit
 ```
 ---
 ### File states
-1- untracked: you just created the file but it is not staged (U).
+1- untracked: you just created the file, but it is not staged (U).
 2- tracked: it is staged and can also be committed once before.
 	tracked file can have 2 stats:
 			1-Unmodified
@@ -137,17 +137,17 @@ git commit -m "message"
 git log
 ```
 
-- We notice that when we mad the commit there are 3 objects are in the .git/objects, what are those 3 files ?
+- We notice that when we made the commit there are 3 objects are in the .git/objects, what are those 3 files ?
 	- first one is the blob itself, it is already there.
 	- second one is the tree which is the folder that contains the file
 	- third one is the commit which indicates that those blobs and trees related to same commit process, it helps me to know the root tree which is the begin to know which files are modified.
 	- ![[Pasted image 20251215224459.png]]
-- So, I have commit object contains the root tree for the changed blobs, and the root tree contains the blobs and they are all for the same commit batch.
+- So, I have commit object contains the root tree for the changed blobs, and the root tree contains the blobs, and they are all for the same commit batch.
 	- ![[Pasted image 20251215233002.png]]
 	- ![[Pasted image 20251215225545.png]]
 - When we modify a file, letter M appears beside the file name which indicating that the file is modified, and if we typed *git status -s*  we will see red M which indicating that the file in working tree is different from the file in the staging area and the repo (it does NOT have commit object), if we typed *git add* and added the file to the staging area, the red M would change to green M which indicating that the file in the working tree is the same of the file that in the staging area.
 
-- After that we commit the file and this step creates 3 objects as we saw in the previous part which are the commit, tree and blobs and we use the SHA-1 value of the commit to know the node tree of the commit batch.
+- After that we commit the file and this step creates 3 objects as we saw in the previous part which are the commit, tree and blobs, and we use the SHA-1 value of the commit to know the node tree of the commit batch.
 
 - We notice that in the second commit if we type *git cat-file -p* "SHA-1 value of second commit", we will see parent and SHA-1 value.
 	- ![[Pasted image 20251215232119.png]]
@@ -239,11 +239,11 @@ git restore --staged <file>
 git restore <file>
 ```
 
-- Now we want to traverse across the commits, if I am in the latest commit and want go back to the commit before it, How I can do it ?
+- Now we want to traverse across the commits, if I am in the latest commit and want to go back to the commit before it, How I can do it ?
 ```Git
 git reset Head~1 # 1 refers to the number of the commit to the back ارجع لورا خطوة
 ```
-this command will bring the file in the previous command back to the staging area and you can see the differences between it and your current file in working tree, and the working tree will not be affected, to make it reflects the working tree we use *git restore --staged 'file'* then *git restore 'file'*.
+this command will bring the file in the previous command back to the staging area, and you can see the differences between it and your current file in working tree, and the working tree will not be affected, to make it reflects the working tree we use *git restore --staged 'file'* then *git restore 'file'*.
 
 - If I am sure that I want to change the working tree directly with the content of specific commit, we use
 ```Git
@@ -256,7 +256,7 @@ but this command is very dangerous in live production as you change the working 
 
 >HEAD is just a file that contains pointer that points to the SHA value of the commit object that also appears in the working directory.
 
- - What if I moved the HEAD back and I want to move it forward ? we use
+ - What if I moved the HEAD back and I want to move it forward ? We use
 ```Git
 git reset --hard HEAD@{number of commit}
 ```
@@ -272,7 +272,7 @@ git reflog
 
 ![[Pasted image 20251217180614.png]]
 
-we notice here that all HEAD moves are recorded and we can go to any specific commit like where the forth line added using `git reset --hard HEAD@{3}`
+we notice here that all HEAD moves are recorded and we can go to any specific commit like where the fourth line added using `git reset --hard HEAD@{3}`
 
 - Annotated tags : they are object which indicate that the commit is considered as a new version for easier access and to have meaning between the other commits.
 ```Git
@@ -390,7 +390,7 @@ git remote add <repo>
 ```
 
 - In the typical workflow you clone the repo and you make a local branch to add the changes on it, then you push that all to the remote repo and the admin may approve the changes or not.
-- When you make the local branch, if you made anything on it and used *git status* you would not see that your are ahead of the origin or behind it, because your local branch is not existed in the origin, so there is nothing to compare your local branch with.
+- When you make the local branch, if you made anything on it and used *git status* you would not see that you are ahead of the origin or behind it, because your local branch is not existed in the origin, so there is nothing to compare your local branch with.
 - Now we want to push the changes we made on our local branch to the origin, if we used
 ```Git
 git push origin
@@ -422,10 +422,10 @@ git pull origin
 ```Git
 git branch -vv
 ```
-it will show us the branches on our local repo and the branches on the origin that will be compared to them, In another words git will know where to push and pull the changes on each branch
+it will show us the branches on our local repo and the branches on the origin that will be compared to them, In in other words git will know where to push and pull the changes on each branch
 ![[Pasted image 20251220174746.png]]
 so any push or pull on local branch "feature" will be synchronized with the origin branch "feature", same thing for the main branch.
 
 ---
-### Git in VS code
+### Git in VS Code
 4:17:00

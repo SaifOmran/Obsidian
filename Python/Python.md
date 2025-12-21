@@ -4,7 +4,7 @@
 print("Hello world")
 ```
 
-- To print text multiple time let say 10 times
+- To print text multiple time, let say 10 times
 ```python
 print("hello "*10)
 ```
@@ -16,7 +16,7 @@ print("I like pizza")
 ```
 ---
 # Variables
-- Variable is a container that store any type of values (String, integer, float, Boolean) and it represents this value kofta
+- Variable is a container that store any type of values (String, integer, float, Boolean) and it represents this value
 ```python
 first_name = "Saif" #String variable
 ```
@@ -50,14 +50,14 @@ else:
 ---
 
 # Type casting
-- Type casting: The process of converting one datatype to another using some functions like *str()*, *int()*, *float()*,*bool()*
-- you can determine the type of variable by using built-in method called type()
+- Type casting: The process of converting one data type to another using some functions like *str()*, *int()*, *float()*,*bool()*
+- you can determine the type of variable by using a built-in method called type()
 ```python
 name = "saif"
 print(type(name))
 ```
 
-- Let's see how we can convert some datatypes
+- Let's see how we can convert some data types
 ```python
 name = "saif"
 age = 23
@@ -71,7 +71,7 @@ print(age) # output : 23.0 , it looks to be float but it is string
 print(type(age)) # output : <class 'str'>
 ```
 
-- How can change integer variable or float to string be also noticed ? try add 1 to the variable after converting it to string.. you will get an error 
+- How can change integer variable or float to string be also noticed ? try to add 1 to the variable after converting it to string.. You will get an error 
 ```python
 price = "25"
 price += 1 
@@ -79,7 +79,7 @@ price += 1
 
 ![[Pasted image 20251119231808.png]]
 
-- so what if I tried to add string to string ? this is called concatenation
+- so what if I tried to add string to string ? This is called concatenation
 ```python
 first_name = 'Saif'
 last_name = 'Omran'
@@ -94,7 +94,7 @@ print(name) # output: True
 
 ```
 
->The *bool()* will always returns True if there is any string except the string is empty, This is useful to check if the user type a name while registering on website for example .
+>The *bool()* will always return True if there is any string except the string is empty, This is useful to check if the user type a name while registering on the website for example.
 
 ```python
 name = "Saif"
@@ -104,7 +104,7 @@ if not name:
 ```
 ---
 # input()
-- This function is used to takes input from the user
+- This function is used to take input from the user
 
 >The *input()* returns data as string
 
@@ -113,7 +113,7 @@ name = input("Please enter your first name: ")
 print(f"Hello, {name}")
 ```
 
-- To clarify that the input method returns string let's see this example
+- To clarify that the input method returns string, let's see this example
 ```python
 age = input("Enter your age, please: ")
 age = age + 1 #Error
@@ -174,7 +174,7 @@ result = pow(4, 3)  # 64
 
 >There is a module (built-in library) in python called "math" which contains mathematical constants like e, pi and also some useful methods.
 
->Before use any module in python you have to import it using *import* 
+>Before use any module in python, you have to import it using *import* 
 
 ```python
 import math
@@ -223,9 +223,9 @@ else:
 	print("you are below 18 years old")
 ```
 
-- In the previous example if the user type the age 120 for example the printed statement will be "you are signed up" even that the second condition is true, but the first condition is true also, so the arrangement is very important to get the right answer as it is only one condition that is executed and if no condition is executed the *else* statement will be executed
+- In the previous example if the user types the age 120 for example the printed statement will be "you are signed up" even that the second condition is true, but the first condition is true also, so the arrangement is very important to get the right answer as it is only one condition that is executed and if no condition is executed the *else* statement will be executed
 
->When you have a condition and you want to check it we use == comparison operator
+>When you have a condition, and you want to check it, we use == comparison operator
 
 ```python
 #simple program to print if the number is even or odd
@@ -298,7 +298,7 @@ have_license = Flase
 ```
 ---
 # Conditional expression
-- instead of typing the if else statement as we have saw, we can type it in one line to print statement or to assign one of two values to a variable.
+- instead of typing the if else statement as we have seen, we can type it in one line to print statement or to assign one of two values to a variable.
 
 > X *if* condition *else* Y 
 
@@ -316,7 +316,7 @@ b = 7
 max_num = a if a > b else b
 print(max_num)
 ```
-- here we assigned the bigger number to the variable *max_num* by testing the condition in the same line of code.
+- here, we assigned the bigger number to the variable *max_num* by testing the condition in the same line of code.
 ---
 # String methods
 >String methods are built-in functions or procedures associated with string data types in various programming languages, allowing for manipulation and analysis of strings.
@@ -330,7 +330,7 @@ print(len(name)) # output : 10
 
 ### find()
 >find() method is used to return the position number of the first occurrence of a character and it returns -1 if the character is not existing
-#important_note : python is zero-based counting language, it means that the first position is 0 and so on.
+#important_note : python is a zero-based counting language, it means that the first position is 0 and so on.
 ```python
 name = "saif omran"
 name = name.find("a")
@@ -338,7 +338,7 @@ print(name) # output : 1
 ```
 
 ### rfind()
->rfind() method is used to return the last occurrence of a character and it returns -1 if the character is not existing
+>rfind() method is used to return the last occurrence of a character, and it returns -1 if the character is not existing
 ```python
 name = "saif omran"
 print(name.rfind("a")) #output : 8
@@ -482,7 +482,7 @@ while name == "":
 print(f"Hello {name}")
 ```
 
-- In the previous example if the user did not enter the name the program will print "you did not enter your name" and will also output "Enter your name: " again waiting for input until user types any input the program will print "Hello (name)".
+- In the previous example if the user did not enter the name the program will print "you did not enter your name" and will also output "Enter your name: " again waiting for input until the user types any input the program will print "Hello (name)".
 
 >There is term called "infinite loop", it means that the program stuck in the loop and continuously execute the same thing forever like the next example.
 >
