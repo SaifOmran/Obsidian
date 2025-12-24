@@ -22,3 +22,6 @@
 			- USERGROUPS_ENAB
 				- YES -> will create group with the same name of the user, to prevent the system from making group with same name we use -N
 				- NO -> will not create group with the username and will make the primary group of the user = users(100), to let the system make group with same name in this situation we use -U
+- When we make pipelines the output is redirected as an input to the next command `head -n10 /etc//passwd | tail -n3`
+- what if we need to save the output of the first command, we use `tee`, `head -n10 /etc//passwd | tee file1.txt | tail -n3`
+- to append to the file we use option `-a` with `tee`.
