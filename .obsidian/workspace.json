@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Git & Github/Git.md",
+                "file": "Linux/Linux.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Git"
+              "title": "Linux"
             }
           }
         ]
@@ -208,9 +208,9 @@
   },
   "active": "191d2d89abe1182e",
   "lastOpenFiles": [
+    "Git & Github/Git.md",
     "Python/Python.md",
     "conflict-files-obsidian-git.md",
-    "Git & Github/Git.md",
     "Python/Pasted image 20251120005829.png",
     "ISM/ISM.md",
     "Linux/Linux.md",
