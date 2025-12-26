@@ -42,4 +42,4 @@
 	- f -> sort and ignore the case-sensitivity 
 ---
 # Tar
-tar is used to
+tar is used to ar
