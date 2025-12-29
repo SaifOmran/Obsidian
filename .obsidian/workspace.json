@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "fd0a10e25ef3d212",
+        "id": "efe35301d43990e0",
         "type": "tabs",
         "children": [
           {
-            "id": "191d2d89abe1182e",
+            "id": "15f92e389a231ff9",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -206,14 +206,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "191d2d89abe1182e",
+  "active": "15f92e389a231ff9",
   "lastOpenFiles": [
     "Git & Github/Git.md",
+    "Linux/Linux.md",
     "Python/Python.md",
     "conflict-files-obsidian-git.md",
     "Python/Pasted image 20251120005829.png",
     "ISM/ISM.md",
-    "Linux/Linux.md",
     "Azure/AZ-104.md",
     "Azure/Pasted image 20251223185758.png",
     "Azure/Pasted image 20251223185652.png",
