@@ -103,4 +103,38 @@ An inode is a data structure in Linux filesystems (like ext4) that stores metada
 - ==To calculate the number of inodes -> Number of inode = partition size / bytes per inode==
 - To check the number of inodes we use `df -i`
 ---
-### LVM
+### Logical Volume Manager (LVM)
+- We saw the standard partition configurations above, but it has limitations aw if we want to extend the partition it must have contiguous free space, also if the hard disk is full and we need to replace it with larger one we will have down time due to transferring the data form the old one to the new one.
+- So, LVM solved these problems as we use the Logical Volume Manager (LVM) system to create logical storage volumes as a layer on the physical storage. This storage system provides greater flexibility than using physical storage directly. LVM hides the hardware storage configuration from the software and ==enables you to resize volumes without stopping applications or unmounting file systems==. LVM provides comprehensive command-line tools to manage storage.
+- #### Flow of LVM
+1. We have physical devices (hard disks or partitions), we initialize it to make them as physical volumes so LVM can work with them.
+2. Create volume group contains the physical volumes. Volume group = storage pool.
+3. Create logical volumes form the volume group.
+4. Make filesystem on these logical volumes.
+5. Mount those filesystem or use them as swap space.
+- ==Physical devices->physical volumes->volume group->logical volumes->filesystem->mount==
+- LVM tools segmented the physical volumes into Physical Extents (PE), and logical volumes are created from Logical Extents (LE) mapped into Physical Extents (PE).
+- The default size of the PE = 4 MB.
+#### Demo
+- Using sdb1 and sdc as physical volumes
+1. Create partition to use it as physical volume (100 GB)
+2. Initialize the hard disk and the partition using `pvcreate [device] [partition]`.
+	- To monitor the physical volumes use `pvdisplay` or `pvs`.
+	- To remove physical volume we use `pvremove [device | partition]`.
+3. Create volume group using `vgcreate [name] [physical volume 1] [physical volume 2]`.
+	- To monitor the volume groups use `vgdisplay` or `vgs`.
+	- We can change the physical extents size using `vgcreate -s [size] [name] [physical volume 1] [physical volume 2]`
+	- To remove the volume group we use `vgremove [group name]`.
+4. Create logical volume using `lvcreate -n [name] -L {[size] | [number of PE]}  [volume group]`
+	 - `-l`->used to allocate percentage pf volume group `lvcreate -n [name] -l 10%vg [volume group` , `lvcreate -n [name] -l 10%FREE [volume group]` -> size = 10% of FREE storage in VG.
+	 - To monitor the logical volumes we use `lvdisplay` or `lvs`.
+5. Make filesystem on the logical volume using `mkfs -t [type of FS] /dev/[volume group]/[logical volume]` or `mkfs -t [type of FS] /dev/mapper/[volume group]-[logical volume]`.
+6. Mount like the standard partitions temporary or persistent in */etc/fstab* and `systemctl daemon-reload`.
+- To extend the logical volume we use `lvextend -r -L +30G [logical volume]`. `-r` to extend FS.
+- To reduce the logical volume we use `lvreduce -r -L -30G [logical volume]`. `-r` to reduce FS.
+	- If we used `-L 30G`, it refers to the exact size.
+- To extend the volume group we use `vgextend [volume group] [physical volume]`.
+- When we need to reduce the volume group, we must move the data from the physical volume we want to remove hence we must have free space in volume group = the size of data on the physical volume we will remove.
+	- Suppose we will remove */dev/sdb1*:
+		- `pvmove /dev/sdb1`.
+		- `vgreduce [volume group]`.
