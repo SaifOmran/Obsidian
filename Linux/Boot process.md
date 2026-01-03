@@ -35,3 +35,12 @@
 ### Partitions
 - */dev/sda1* -> mounted to /boot (boot partition)
 - */dev/sda1* -> mounted to / (root partition)
+---
+### Root password recovery 
+- ##### Method 1
+	- ![[WhatsApp Image 2026-01-04 at 12.11.25 AM.jpeg]]
+- ##### Method 2
+	- ![[WhatsApp Image 2026-01-04 at 12.11.31 AM.jpeg]]
+---
+### Grub password
+- ![[WhatsApp Image 2026-01-03 at 6.33.59 PM 1.jpeg]]
