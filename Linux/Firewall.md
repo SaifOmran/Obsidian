@@ -22,9 +22,13 @@
 - The path of the predefined services is */usr/lib/firewalld/services*.
 ### Permanent vs Runtime configurations
 - If we apply a new rule in a zone without using `--permanent` option, this rule will be applied directly on the kernel (netfilter) and it will be removed after the reboot of the system.
-- When we use `--permanent` option the configuration is saved in */etc/firewalld/zones/[zone_name.xml]*, and we have to reload the service using `firewalld-cmd --reload` 
+- When we use `--permanent` option the configuration is saved in */etc/firewalld/zones/[zone_name.xml]*, and we have to reload the service using `firewalld-cmd --reload` (by logic as the files under */etc* are read while booting up, and reload command make the system re-read these file while services are running).
 ### Firewall commands
 - If the firewalld service is stopped we use `firewalld-offline-cmd` for offline configuration.
 - If the firewalld service is running we use `firewalld-cmd` for online configuration.
 - We can add rule by its name using `firewall-cmd --permanent --add-service=ssh`, or by the port number using `firewall-cmd --permanent --add-port=22/tcp`
-- 
+- We can remove rule by its name using `firewall-cmd --permanent --remove-service=smtp`, or by the port number using `firewall-cmd --permanent --add-port=25/tcp`.
+- To get the services that can be configured by name on the server, we use `firewall-cmd --get-services`.
+- To get the zones that could be configured on the server, we use `firewall-cmd --get-zones`.
+- To list all the firewall rules that are configured on the server, we use `firewall-cmd --permanent --list-all`.
+- To list of available zones that are configured on the server, we use `firewall-cmd --list-zones`
