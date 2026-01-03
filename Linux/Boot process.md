@@ -10,7 +10,9 @@
 	- Boot loader/Boot code = 446 byte, and it stores the $1^{st}$ stage boot loader which points to the location of $2^{nd}$ stage boot loader file */boot/grub2/grub.cfg*.
 	- Magic number = 2 byte
 5. Grub takes the control and load the grub menu which contains the entries (kernels) stored in */boot/loader/entries* and we choose one of the kernels.
+	- ![[Pasted image 20260103225711.png]]
 6. Kernel takes control, the kernel is divided to 2 files are stored in */boot* and they are loaded in the memory
+	- ![[Pasted image 20260103225750.png]]
 	- vmlinuz -> initialize the hardware again to name it (like /dev/sda1) instead of grub naming (hd0 msdos)
 	- initramfs -> contains modules needed by kernel to initialize the hardware and it contains initial filesystem.
 7. kernel starts the *systemd* process as it is first process and this process start searching for the / partition which is /dev/sda2 partition and mount it to /sysroot (read-only mount)
@@ -20,3 +22,12 @@
 	`switch_root /sysroot`.
 9. re-execute *systemd* process as we in the new real-time filesystem, and it starts the services which are enabled (services are enabled while booting up the system).
 10. finally *systemd* specify which system target to boot up with.
+	- here we notice that the systemd is the first process started with process ID =1
+	- ![[Pasted image 20260103230027.png]]
+---
+### Grub files
+- */boot/grub2/grub.cfg* -> boot load file.
+- */etc/default/grub* -> file contains grub parameters.
+	- If we made any changes in this file we need to execute `grub2-mkconfig -o /boot/grub2/grub.cfg` to regenerate *grub.cfg* file to make these changes applied in next boot up.
+	- ![[Pasted image 20260103224048.png]]
+	- 
