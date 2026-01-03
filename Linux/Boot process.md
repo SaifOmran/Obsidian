@@ -13,7 +13,7 @@
 	- ![[Pasted image 20260103225711.png]]
 6. Kernel takes control, the kernel is divided to 2 files are stored in */boot* and they are loaded in the memory
 	- ![[Pasted image 20260103225750.png]]
-	- vmlinuz -> initialize the hardware again to name it (like /dev/sda1) instead of grub naming (hd0 msdos)
+	- vmlinuz -> initialize the hardware again to name it (like /dev/sda1) instead of grub naming (hd0,msdos1)
 	- initramfs -> contains modules needed by kernel to initialize the hardware and it contains initial filesystem.
 7. kernel starts the *systemd* process as it is first process and this process start searching for the / partition which is /dev/sda2 partition and mount it to /sysroot (read-only mount)
 ![[Pasted image 20260103193742.png]]
@@ -30,4 +30,8 @@
 - */etc/default/grub* -> file contains grub parameters.
 	- If we made any changes in this file we need to execute `grub2-mkconfig -o /boot/grub2/grub.cfg` to regenerate *grub.cfg* file to make these changes applied in next boot up.
 	- ![[Pasted image 20260103224048.png]]
-	- 
+- */etc/grub.d* -> directory contains scripts used to generate */boot/grub2/grub.cfg* file.
+---
+### Partitions
+- */dev/sda1* -> mounted to /boot (boot partition)
+- */dev/sda1* -> mounted to / (root partition)
