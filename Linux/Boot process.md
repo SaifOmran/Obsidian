@@ -60,14 +60,15 @@
 | Used in             | Old distributions                               | Modern distributions           |
 | Service managment   | -`service httpd start`<br>-`chkconfig httpd on` | `systemctl [action] [service]` |
 
-| Runlevel (init)                       | systemd Target    | Note |
-| ------------------------------------- | ----------------- | ---- |
-| 0 -> poweroff                         | poweroff.target   |      |
-| 1 -> single user<br>     (no network) | rescue.target     |      |
-| 2 -> multi user<br>      (no network) |                   |      |
-| 3 -> multi user<br>     (network)     | multi-user.target | CLI  |
-| 5                                     | graphical.target  | GUI  |
-| 6                                     | reboot.target     |      |
+| Runlevel (init)                       | systemd Target    |
+| ------------------------------------- | ----------------- |
+| 0 -> poweroff                         | poweroff.target   |
+| 1 -> single user<br>     (no network) | rescue.target     |
+| 2 -> multi user<br>      (no network) |                   |
+| 3 -> multi user<br>     (network)     | multi-user.target |
+| 4 -> customized                       |                   |
+| 5 -> GUI                              | graphical.target  |
+| 6 -> reboot                           | reboot.target     |
 - In init:
 	- To show the current run level we use `runlevel`
 	- To move from one level to another we use `init [runlevel]`.
@@ -75,5 +76,24 @@
 - In systemd:
 	- To switch to specific target we use `systemctl isolate [target]`.
 	- To show the default target we use `systemctl get-default`.
-	- To set to specific default target we use `systemctl set-default [target]`.
-- 
+	- To set to specific default target we use `systemctl set-default [target]` and it is stored in */etc/systemd/system/default.target.
+- If we set the default target to reboot.target, system will enter infinite loop as we will choose the kernel and the kernel will be loaded into memory and the / partition will be mounted and the root will be changed to real time root and when systemd re-execute itself we will go back to the grub menu again, how can we solve this problem ? the answer is by changing the target while booting up by passing the new target will the kernel is loaded to memory, we will type `systemd.unit=rescue.target`
+	- ![[Pasted image 20260104222854.png]]
+---
+### Systemctl commands
+| Command                                       | Description                    |
+| --------------------------------------------- | ------------------------------ |
+| systemctl status service [service_name]       | Show service status            |
+| systemctl start service [service_name]        | Start a service                |
+| systemctl stop service [service_name]         | Stop a service                 |
+| systemctl restart service [service_name]      | Restart a service              |
+| systemctl reload service [service_name]       | Reload config without restart  |
+| systemctl enable service [service_name]       | Enable service at boot         |
+| systemctl disable service [service_name]      | Disable service at boot        |
+| systemctl is-enabled service [service_name]   | Check if enabled at boot       |
+| systemctl is-active service [service_name]    | Check if running               |
+| systemctl list-units --type=service           | List active units              |
+| systemctl get-default [systemd.target]        | Show default target            |
+| systemctl set-default target [systemd.target] | Set default target             |
+| systemctl mask [service_name]                 | Doesn't start service anyway   |
+| systemctl umask [service_name]                | Remove the lock on the service |
