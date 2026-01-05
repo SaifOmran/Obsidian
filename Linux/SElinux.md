@@ -113,3 +113,5 @@
 	- Example -> `semanage port -m -t ssh_port_t -p tcp 82`.
 
 - To show definde ports rules for ports we use `semanage port -lC`.
+---
+##### Permissive mode  for service
