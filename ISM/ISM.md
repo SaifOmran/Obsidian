@@ -1,6 +1,3 @@
----
-
----
 # Day 1
 - Data: collection of zeros and ones without meaning.
 - information: collection of structured data that have meaning.
