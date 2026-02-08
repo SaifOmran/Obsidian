@@ -37,8 +37,8 @@
 ```
 - here the file is tracked and there is a SHA-1 key is created for it, and it is in the staging area file and also in the repo file (.git).
 - we still also don't have the first snapshot or first version of the file, to make the first snapshot or version we use
- ```Git
-	 git commit
+```Git
+ git commit
 ```
 ---
 ### File states
