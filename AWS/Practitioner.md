@@ -169,3 +169,65 @@
 ##### Wavelength zones
 - فكرتها ان ال AWS infrastructure موجودة عند الtelco companies or communication service providers (CSP) والusers بيستخدموها من خلال ال ==5G network==.
 - كمان ال traffic من ال user لل servers والعكس مش بتطلع برا ال telecommunication network.
+---
+### VPC #Video15
+- VPC = Virtual Private Cloud, which looking like my virtual datacentre.
+- VPC contains subnets which could be private or public.
+- The resources in public subnet could be accessed using the their public IP directly from the external users.
+- The resources in private subnet are not accessible by the external users.
+- مثال عشان الدنيا توضح..تخيل عند VPC فيها private subnet موجود جواها DB servers وفي public subnet فيها web servers..هنا ال user يقدر يبعت للweb server وساعتها الweb server يكلم ال DB server يجيب منها Data..لكن الuser ميقدرش يكلم ال DB server directly لانها في private subnet.
+![[Pasted image 20260208211229.png]]
+
+- طيب ازاي ال public subnet بتقدر تطلع internet ؟ عن طريق الinternet gateway (IGW) اللي بيكون على طرف ال VPC.
+![[Pasted image 20260208211541.png]]
+---
+### Connect on-prem to AWS #Video16
+##### Site-to-site VPN (through internet)
+- فكرة ال site-to-site VPN او ساعات بيسموه ال GW-to-GW VPN ان بوصل ال GW بتاعت ال on-prem هنقول انه ال edge router او ال Firewall ب Virtual private gateway اللي على ال VPC على AWS.
+![[Pasted image 20260208212311.png]]
+
+- لكن مشكلته ان اقصى سرعة نقل بينهم =  1.25 Gbps...عشان المشكلة دي ظهر النوع التاني.
+##### Direct connect (physical connection)
+- فكرته ان بيكون في حاجة اسمها AWS direct connect location بيكون فيه حاجة اسمها AWS cage فيه ال routers بتاعت AWS جمبه بنعمل Customer cage بيكون فيه ال routers بتاعت ال customer ونوصلهم ببعض directly وطبعا ده بيدي سرعات اعلى بكتير من ال site-to-site VPN توصل ل 100G وبيكون ==Dedicated connection==
+![[Pasted image 20260208213102.png]]
+
+- لو سأل في الامتحان عن حاجة توصل ال on-prem to AWS cloud بسرعة خلال ساعات هتكون ال site-to-site VPN..على عكس ال Direct connect اللي بتاخد اسابيع على ما تتعمل.
+---
+### VPC security #Video17
+- اول الحاجة ال traffic بتيجي من ال internet على ال IGW وهنا الtraffic بتخبط في حاجة اسمها ==NACL== ودي بتكون على مستوي ال subnet كاملة وبتحدد هل ال traffic دي مسموحلها تعدي ولا لا 
+- تاني حاجة بقا ال traffic بتخبط فيها هي ال ==security group== ودي بتكون على مستوى ال instances اللي جوا ال subnet.
+##### NACL
+- Allows or denies the inbound or outbound at the ==subnet level==.
+- Each subnet must be associated with NACL (if not configured, there is a default one).
+- The default NACL allows all inbound and outbound traffic.
+- ==NACL is stateless==, the traffic should be allowed inbound and outbound.
+##### Security group
+- Allows or denies the inbound or outbound traffic at the resource level.
+- ==By default the security group doesn't allow any inbound traffic, but allow all outbound==.
+- ==Security group is stateful==.
+---
+### Route 53 #Video18
+- Fully managed DNS service which resolve the domain name to IP.
+- Route internet traffic to the nearest server
+يعني لو ال IP اللي بيدور على موقع معين جاي من اوروبا ابعته على سيرفرات في ريجون اوروبا ولو جاي من امريكا ابعته على سيرفرات امريكا هكذا وده اسمه ==Global server load balancing = GSLB==
+- Check the health of the server before replying with the IP of the server.
+- Used to register my domain names.
+- مهمة للامتحان ==Load balancing between regions==
+---
+### Block storage #video19 
+##### EC2 instance store
+- Used for ==temporary block-level storage==, and it is very fast.
+- Ideal for caches, buffers, ==high IOPS ==and scratch data
+##### EBS
+- Can be used as primary storage device.
+- Used for ==persistent block-level storage== like OS.
+- ==It is suitable for running database.==
+---
+### Object storage #Video20
+##### S3 (simple storage service)
+- Stores data as objects in bucket.
+- There are permissions for accessing the objects.
+- Each object is file and its metadata.
+- S3 durability 11x9's = 99.999999999%
+- store infinite data.
+---

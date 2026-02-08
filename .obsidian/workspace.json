@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#video4",
+                "query": "o",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,11 +74,13 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "50b169789559e97b",
@@ -208,6 +210,11 @@
   },
   "active": "f17ba7d294ecca6a",
   "lastOpenFiles": [
+    "AWS/Pasted image 20260208213102.png",
+    "AWS/Pasted image 20260208212311.png",
+    "AWS/Pasted image 20260208211541.png",
+    "AWS/Pasted image 20260208211535.png",
+    "AWS/Pasted image 20260208211229.png",
     "AWS/Pasted image 20260208102215.png",
     "Excalidraw/Drawing 2026-02-08 10.18.09.excalidraw.md",
     "AWS/Practitioner.md",
@@ -226,13 +233,8 @@
     "Excalidraw/Drawing 2026-02-06 16.34.58.excalidraw.md",
     "OpenStack",
     "AWS",
-    "Linux/Pasted image 20260103230027.png",
     "ISM/ISM.md",
     "Azure/AZ-104.md",
-    "Linux/Pasted image 20260106014258.png",
-    "Linux/Pasted image 20260106013846.png",
-    "Linux/Pasted image 20260106013607.png",
-    "Linux/Pasted image 20260106013433.png",
     "Linux/Firewall.md",
     "Linux/Boot process.md",
     "Excalidraw/Drawing 2026-01-02 16.36.05.excalidraw.md",
