@@ -103,3 +103,69 @@
 - AWS offers up to 1 million free request / month.
 ---
 ### Containers #Video9
+##### Why containers ?
+- To make the code work on any host as the container contains the code with its dependencies and libraries which are needed to make the code run.
+##### What does the orchestration do ?
+1. Check available resources on server to run new container.
+2. Responsible about the container lifecycle (launch and terminate container).
+3. Monitoring the containers health.
+### Containers on AWS
+##### EKS (Elastic Kubernetes Service)
+- Used when I am working ==on prem and want to migrate== to the cloud
+1. Manage containers on EC2 instance -> There are some containers on EC2 instance and the EKS managing them.
+2. Manage serverless containers ==Fargate== -> Serverless compute engine for containers, used to manage serverless containers.
+![[Pasted image 20260208095021.png]]
+
+##### ECS (Elastic Container Service)
+- Used when building ==containers from scratch==.
+	1. Manage containers on EC2 instance -> There are some containers on EC2 instance and the ECS managing them.
+	2. Manage serverless containers ==Fargate== -> Serverless compute engine for containers, used to manage serverless containers.
+![[Pasted image 20260208095021.png]]
+ > Use Amazon ECS for simple, AWS-native applications, rapid deployment, and lower operational overhead. Use Amazon EKS for complex, large-scale microservices, multi-cloud strategies, or when requiring full Kubernetes ecosystem compatibility. ECS is ideal for smaller teams; EKS is best for teams with deep Kubernetes expertise.
+
+##### ECR (Elastic container Registry)
+- Service from AWS that allows developers to easily store, manage, and deploy container images (Alternative to Docker Hub).
+- ECR integrates well with AWS services.
+- ECR can be private registry for the customer.
+---
+### AWS global infrastructure #Video10
+- ==Availability Zone==: one or more datacentre, which are separated form each other and each one has its power and networking.
+- AZs are separated form each others by many kilometres (maximum 100 km). 
+- ==Region==: collection of availability zones (minimum 3 AZs).
+- Region = 1 country (important for data resilience).
+![[Pasted image 20260208102215.png]]
+
+##### Region and AZs naming
+- Region = us-east-1 (first region made by AWS by the way).
+	- AZ1 = us-east-1a
+	- AZ2 = us-east-1b
+	- AZ3 = us-east-1c
+---
+### Region selection criteria #Video11 
+1. Compliance -> regulation for governances.
+2. Proximity -> Latency
+3. Service availability -> Not all service are in all regions. 
+4. Cost -> The services cost differs from region to another. 
+---
+### CloudFront and edge locations #Video12
+- تخيل انت في مصر وعايز تتفرج على فيديو على اليوتيوب.. الطبيعي ان ال request بتاعك هيعدي على كل ال routers من مصر لحد سيرفر ال YouTube وده طبعا وقت كبير وlatency عالية.. يجي هنا دور الedge location أو ال cloudfront..دورها بكل بساطة انها بتعمل ==caching== لل content لما اول user يطلبه ف اقرب edge location له بحيث لما user تاني او نفس ال user يطلب نفس الفيديو من يوتيوب يبقى متخزن في ال edge location القريبة دي بدل ما يروح لحد سيرفرات يوتيوب في امريكا مثلا.
+- ==CloudFront provides Content Delivery Networks (CDN)==.
+- CloudFront speeds up the distribution of static and dynamic web content and image files.
+- ==The request is routed to the closest edge location through the AWS backbone network not through the internet infrastructure providing low latency==.
+- If the content is not in the edge location (cache miss), Cloudfront retrieves it from the origin, otherwise CloudFront delivers it immediately.
+- فين بلاقي ال cloudfront ؟ جوا ال edge location.
+---
+### AWS outposts #Video13
+- AWS Outposts extends AWS infrastructure and services to on-premises environments, allowing customers to run AWS workloads locally while being ==fully managed from the AWS cloud==.
+- السيرفر متظبط وجاهز يتوصل كهربا ونتورك عندك في الشركة
+- الشركات ممكن تحتاج الservice دي عشان ==low latency and compliance and data residency.==
+---
+### Local zones and Wavelength zones #Video14
+##### Local zones
+- AWS Local Zones are an extension of an AWS Region that place compute and storage closer to end users to support ==latency-sensitive workloads==.
+- هي extension لل AWS region بس مش زي outpost لان مفيش سيرفر عندي.
+- Local zones are in metropolitan cities, which are close to the user.
+- Local zones have their own connection to the internet.
+##### Wavelength zones
+- فكرتها ان ال AWS infrastructure موجودة عند الtelco companies or communication service providers (CSP) والusers بيستخدموها من خلال ال ==5G network==.
+- كمان ال traffic من ال user لل servers والعكس مش بتطلع برا ال telecommunication network.
