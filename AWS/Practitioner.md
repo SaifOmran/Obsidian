@@ -231,3 +231,95 @@
 - S3 durability 11x9's = 99.999999999%
 - store infinite data.
 ---
+### S3 storage classes #Video21
+##### S3 standard
+- Used to store ==frequently access data==.
+- The data is stored in minimum ==3 AZs==.
+##### S3 standard-IA
+- Used to store ==less frequently access data==.
+- Lower storage price than S3 standard, but ==extra retrieval fees==.
+##### S3 one zone-IA
+- Used to store less frequently access data in ==one zone==.
+- Lower storage price than S3 standard-IA.
+- Must be careful if you chose this type as the data in only 1 AZ, so if the AZ is down, you will lose the data.
+- Use case: regeneratable data like sales reports and thumbnails. 
+##### S3 intelligent tiering
+- Monitoring the objects and move them to the suitable class based on object access numbers from the users.
+- You pay small extra fees monthly per object for monitoring.
+#####  S3 Glacier (==Archiving==)
+1. ==Glacier instant retrieval==
+	- Low cost for archiving data that is rarely accessed.
+	- Retrieval time is milliseconds.
+2.  ==Glacier flexible retrieval==
+	- Lower cost than instant retrieval.
+	- Retrieval time is minutes to hours.
+3. ==Glacier deep archive==
+	- Lowest cost.
+	- Retrieval time within 12 hours.
+---
+### File storage #Video22
+ - فكرة الFile storage بشكل عام ان في زي shared volume بين مجموعة hosts بيقدروا يوصلوا له من ال internet.
+##### EFS (Elastic File System)
+- Multiple EC2 instances in multiple AZs want to access same storage file system.
+![[Pasted image 20260209115523.png]]
+
+- ==EFS is compatible only with Linux== based EC2 instance, as it uses NFS protocol.
+##### FSx
+- ==FSx== is used with ==Windows== based EC2 instance, as it uses ==SMB or CIFS== protocols.
+---
+### Relational database #Video23 
+- There is a relation between data.
+- Data is stored in tables.
+- SQL is used to store and query data.
+- Fixed schema.
+- تعالى نفهم ال on-prem ومشاكله ونشوف هنستفاد ايه..في ال on-prem كان الشركة بتجيب physical server تحط عليه الDB وتجيب DBA يبقى مسئول عن: 
+					  1. السيرفر نفسه
+					  2. الOS upgrading
+					  3. الHA عشان لو السيرفر ده وقع
+					  4. الstorage scalability عشان لو الداتا كترت والمساحة خلصت
+					  5. ال backups
+	طبعا دي مسئوليات كتير ووجع دماغ..الحل قالك بقا تعالى نروح ل AWS..بس عشان نروحلها في طريقتين
+##### Self-managed DB
+- دي زيها زي الon-prem باستثناء ان مبقاش عندي physical server.
+##### Fully-managed DB (RDS)
+- دي بقا Fully-managed by AWS انا مجرد بختار ال DB Engine اللي انا محتاجه وAWS بتحدد ال EC2 size وال OS وتعمله OS management وكمان لو محتاج مساحة (EBS) هي هتزود اوتوماتيك وكمان في option وانا بعملها اسمه multi-AZ عشان ال HA وبرضو في Auto backups.
+- Fully-managed service that operates and scales on the cloud.
+- Automate time consuming tasks of the DBA like managing servers, DB engine setup, OS patching and upgrading, HA, storage scalability and backups.
+- Allow data encryption.
+##### RDS engines
+1. Aroura (MySQL or Postgres SQL) -> not opensource engines, compatible with Postgres SQL (3x better performance) and with MySQL (5x better performance) 
+2. Postgres SQL
+3. MySQL
+4. MariaDB
+5. Oracle DB -> expensive
+6. Microsoft SQL -> expensive
+##### Amazon Aurora
+- Serverless.
+- compatible with MySQL and Postgres SQL
+- Auto scale up to 128TB.
+- Pay per second.
+- 20% more expensive than RDS.
+- ==Replicates 6 copies of data across 3 AZs==.
+---
+### Non-Relational DB #Video24
+- Known as NoSQL or Key Value pair DB.
+- Use different structure to store data rather than rows and columns.
+- Dynamic schema.
+##### DynamoDB
+- Serverless NoSQL DB service supports key value model.
+- Designed to run high-performance applications.
+- Scalable to handle millions of user requests.
+- Can handle 10 trillion requests per day.
+- Single digit millisecond performance even in high traffic.
+---
+### Migrate DB to AWS cloud #Video25
+##### DMS (Database Migration Service)
+- Used ==to/from== migrate on-prem or DB on another cloud provider to AWS cloud.
+![[Pasted image 20260209134615.png]]
+
+##### AWS Schema Conversion Tool (SCT)
+- Used to converse the schema from DB engine to another one.
+- لو مثلا عندي في ال on-prem بتاعي Oracle DB وعايز اعملها Migration على MySQL على AWS .. هنا ال Engines مختلفة فلازم احولها باستخدام SCT.
+![[Pasted image 20260209135018.png]]
+---
+### Additional DB services #Video26
