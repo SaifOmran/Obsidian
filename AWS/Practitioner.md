@@ -322,4 +322,27 @@
 - لو مثلا عندي في ال on-prem بتاعي Oracle DB وعايز اعملها Migration على MySQL على AWS .. هنا ال Engines مختلفة فلازم احولها باستخدام SCT.
 ![[Pasted image 20260209135018.png]]
 ---
-### Additional DB services #Video26
+### Additional DB services #Video26 
+##### Redshift
+- Analyse Data across ==Datawarehouse==.
+- ==OLAP = Online Analytical Processing==
+##### Neptune
+- ==Graph== database and social media analysis or recommendation.
+##### DocumentDB
+- ==MongoDB== compatible.
+- NoSQL DB.
+##### QLDB
+- ==Centralized Ledger== DB.
+##### Managed Blockchain
+-   ==Distributed Ledger== DB.
+##### Elasticache
+- Caching layers to improve DB performance
+##### DAX (DynamoDB Accelerator)
+- Improve DynamoDB response time from milliseconds to microseconds.
+---
+### Shared responsibility model #Video27
+- AWS is responsible about security ==of== the cloud (Physical infra).
+- Customer is responsible about security ==in== the cloud (NACL and SG configuration).
+- ==Patching OS is AWS responsibility if it is RDS (fully-managed), but it is customer responsibility if it is normal EC2 instance==.
+---
+
