@@ -104,7 +104,7 @@ An inode is a data structure in Linux filesystems (like ext4) that stores metada
 - To check the number of inodes we use `df -i`
 ---
 ### Logical Volume Manager (LVM)
-- We saw the standard partition configurations above, but it has limitations aw if we want to extend the partition it must have contiguous free space, also if the hard disk is full and we need to replace it with larger one we will have down time due to transferring the data form the old one to the new one.
+- We saw the standard partition configurations above, but it has limitations if we want to extend the partition it must have contiguous free space, also if the hard disk is full and we need to replace it with larger one we will have down time due to transferring the data form the old one to the new one.
 - So, LVM solved these problems as we use the Logical Volume Manager (LVM) system to create logical storage volumes as a layer on the physical storage. This storage system provides greater flexibility than using physical storage directly. LVM hides the hardware storage configuration from the software and ==enables you to resize volumes without stopping applications or unmounting file systems==. LVM provides comprehensive command-line tools to manage storage.
 - #### Flow of LVM
 1. We have physical devices (hard disks or partitions), we initialize it to make them as physical volumes so LVM can work with them.

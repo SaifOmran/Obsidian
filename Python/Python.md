@@ -150,7 +150,7 @@ age += 1 #Add with augmented operator
 
 >It is the same with the subtraction - multiplication * division / 
 
--The power operator
+- The power operator
 ```python
 number = 10
 number = number ** 2
@@ -185,7 +185,7 @@ print(math.ceil(x)) #output: 10
 y = 9.999
 print(math.floor(y)) #output: 9
 z = 25
-print(math.sqrt(z)) #output: 5
+	print(math.sqrt(z)) #output: 5.0
 ```
 ---
 # If condition (if else)
@@ -414,8 +414,8 @@ print(my_string[0]) # Output: P
 print(my_string[4]) # Output: o
   ```
   
-- Example of negative indexing
-```python
+# Example of negative indexing
+
 my_string = "Python"  
 print(my_string[-2]) # Output: o
 ```
@@ -498,4 +498,174 @@ print(f"Hello {name}")
 
 ---
 # for loop
+![[Pasted image 20260223101042.png]]
 
+### for in range
+![[Pasted image 20260223101101.png]]
+### for in range with reversed method
+![[Pasted image 20260223101151.png]]
+
+### for in range with steps
+![[Pasted image 20260223101223.png]]
+### iterating over string
+![[Pasted image 20260223101257.png]]
+
+### for with break
+- break is a keyword used to exit the loop.
+![[Pasted image 20260223101402.png]]
+![[Pasted image 20260223101410.png]]
+### for with continue
+- continue is a keyword that is used to escape an iteration and continue after it.
+![[Pasted image 20260223101500.png]]
+![[Pasted image 20260223101526.png]]
+### nested loop
+- A **nested loop in Python** means putting **one loop inside another loop**.
+```Python
+for i in range(3):
+    for j in range(2):
+        print(i, j)
+```
+
+```output
+0 0
+0 1
+1 0
+1 1
+2 0
+2 1
+```
+---
+# Lists
+![[Pasted image 20260223103021.png]]
+
+```Python
+names = ["Ali", "Sara", "Omar", "Mona"]
+
+print(names[0])   # Ali
+print(names[1])   # Sara
+print(names[3])   # Mona
+# Check item in list
+print("Ahmed" in names) # False
+print("Ali" in names) # True
+
+```
+
+```Python
+numbers = [10, 20, 30, 40, 50]
+
+print(numbers[-1])  # 50
+print(numbers[-2])  # 40
+# change value of list's item
+numbers[0] = 100
+print(numbers) # [100, 20, 30, 40, 50]
+```
+
+```Python
+nums = [0, 1, 2, 3, 4, 5, 6]
+
+print(nums[::2]) # [0, 2, 4, 6]
+```
+
+### looping over list
+```Python
+fruits = ["apple", "banana", "orange"]
+
+for fruit in (fruits):
+    print(fruit)
+```
+
+```Python
+fruits = ["apple", "banana", "orange"]
+
+for index, fruit in enumerate(fruits):
+    print(index, fruit)
+```
+
+### List methods
+```Python
+fruits = ["apple", "banana", "orange", "banana"]
+
+# 1️⃣ Access & replace by index
+fruits[0] = "pineapple"
+print(fruits)
+# ['pineapple', 'banana', 'orange', 'banana']
+
+# 2️⃣ append()
+fruits.append("mango")
+print(fruits)
+# ['pineapple', 'banana', 'orange', 'banana', 'mango']
+
+# 3️⃣ remove()
+fruits.remove("orange")
+print(fruits)
+# ['pineapple', 'banana', 'banana', 'mango']
+
+# 4️⃣ insert(index, value)
+fruits.insert(0, "apple")
+print(fruits)
+# ['apple', 'pineapple', 'banana', 'banana', 'mango']
+
+# 5️⃣ sort()
+fruits.sort()
+print(fruits)
+# ['apple', 'banana', 'banana', 'mango', 'pineapple']
+
+# 6️⃣ reverse()
+fruits.reverse()
+print(fruits)
+# ['pineapple', 'mango', 'banana', 'banana', 'apple']
+
+# 7️⃣ index()
+print(fruits.index("banana"))
+# 2   (first occurrence)
+
+# 8️⃣ count()
+print(fruits.count("banana"))
+# 2
+
+# 9️⃣ clear()
+fruits.clear()
+print(fruits)
+# []
+```
+---
+# Tuples
+![[Pasted image 20260223104535.png]]
+
+> Tuples are faster than lists
+
+```Python
+# Create a tuple
+numbers = (1, 2, 3, 4)
+print(numbers)
+```
+
+```Python
+# Access by index
+fruits = ("apple", "banana", "orange")
+
+print(fruits[0])   # apple
+print(fruits[-1])  # orange
+```
+
+```Python
+fruits[0] = "mango"   # ❌ Error because tuples are immutable.
+```
+
+### Tuples method
+- Tuples have only:
+	- count()
+	- index()
+```Python
+nums = (1, 2, 2, 3, 4)
+
+print(nums.count(2))   # 2
+print(nums.index(3))   # 3
+```
+
+### Why use tuple instead of list?
+Use tuple when:
+- Data **should not change**
+- Want better performance
+- Represent fixed data (coordinates, config, record)
+---

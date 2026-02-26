@@ -1,7 +1,10 @@
 # Day 1
 - Data: collection of zeros and ones without meaning.
 - information: collection of structured data that have meaning.
-- structured data: have pattern like DB tables, semi structured: key and value like XML, Quasi structured: between structured and semi structured there is no pattern and no key and value but you can get info, unstructured: hard to see a pattern like video and PDF files.
+- structured data: have pattern like DB tables 
+- semi structured: key and value like XML 
+- Quasi structured: between structured and semi structured there is no pattern and no key and value but you can get info
+- unstructured: hard to see a pattern like video and PDF files.
 - Tape was used for backup and archiving, but it is legacy now as it is expensive and slow.
 - Difference between local cloud provider and the hyper scaler: 
 	1- pay easily with local currency.
@@ -32,6 +35,7 @@
 page 222
 ## RAID techniques
 - Storage box = dummy disks + controller.
+- controller decides the type of the storage (block-level, file-level, object-level or unified)
 - RAID 0: performance and utilization, but low level of protection.
 - RAID 1: protection, but low level of utilization, it is not like a backup as the 2 disk are identical and any change in 1 instantly effects the other, so if any disk got ransomware the other would also, the backup concept means that there is a point in time where the data is copied on another disk.
 - RAID 1+0: low level of utilization, require minimum 4 disks.
@@ -76,7 +80,7 @@ page 222
 	- 1- LUN Assigned to the Hypervisor (Most Common Method)
 		- The storage system presents a LUN to the hypervisor (e.g., ESXi, Hyper-V).
 		- The hypervisor sees it as a raw physical disk.
-		- The hypervisor formats it with its own file system (VMFS, NTFS, etc.).
+		- The hypervisor formats it with its own file system (VMFS).
 		- Inside this file system, the hypervisor creates virtual disks (VMDK, VHDX).
 		- These virtual disks are then assigned to virtual machines and appear to each VM as a raw drive.
 		- Each VM formats its virtual disk with its own guest file system (NTFS, EXT4, etc.).
@@ -136,7 +140,7 @@ page 222
 - HBA (front end controller) for storage box = HBA for the servers.
 - HBA has WWN and NIC has MAC.
 - WWN = WWNN + WWPN.
-- WWN is is used for zoning process.
+- WWN is used for zoning process.
 - WWN = HBA identifier = LUN identifier
 ---
 # Day 3
@@ -197,10 +201,9 @@ page 222
 	- ISCSI HBA: Performs both iSCSI and TCP/IP processing, the server does NOT handle anything, frees-up CPU cycles of compute system for business applications.
 	- Target: front end port.
 	- interconnecting device: L2 switch (Ethernet LAN).
-	- IP-based protocol that enables transporting SCSI data over an IP network
+	- ==IP-based protocol that enables transporting SCSI data over an IP network==
 	- Encapsulates SCSI I/O into IP packets and transports them using TCP/IP
 	- IP-based protocol that is used to interconnect distributed FC SAN islands over an IP network.
-	- Encapsulates FC frames onto IP packet and transports over existing IP network
 - iSCSI Connectivity:
 	- 1- Native
 		- iSCSI initiators connect to iSCSI targets directly/through IP network  No FC component

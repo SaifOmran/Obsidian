@@ -1,7 +1,7 @@
 ### Types of version control
-- 1- Local version control: Tracking the files or the project on your on PC only.
-- 2- Central version control: Track and edit files on a server shared between different users, and the changing in the files is live.
-- 3- Distributed version control: Every developer has a full copy of the files and can track the changes from any other developer, and Git is this type.
+1. Local version control: Tracking the files or the project on your on PC only.
+2. Central version control: Track and edit files on a server shared between different users, and the changing in the files is live.
+3. Distributed version control: Every developer has a full copy of the files and can track the changes from any other developer, and Git is this type.
 ---
 - The difference between Git and other version control systems that Git is cumulative version control which takes a full snapshot after each change in the file, where the other version controls are incremental which only take the difference between the new version and the pervious one because of the limited storage in the past.
 ---
@@ -374,8 +374,6 @@ this command will only get the changes onto the local repo, but they will not be
 ```Git
 git merge
 ```
-
-	 
 
 - To see the branches of the remote repo
 ```Git

@@ -294,7 +294,7 @@
 5. Oracle DB -> expensive
 6. Microsoft SQL -> expensive
 ##### Amazon Aurora
-- Serverless.
+- ==Serverless==.
 - compatible with MySQL and Postgres SQL
 - Auto scale up to 128TB.
 - Pay per second.
@@ -306,7 +306,7 @@
 - Use different structure to store data rather than rows and columns.
 - Dynamic schema.
 ##### DynamoDB
-- Serverless NoSQL DB service supports key value model.
+- ==Serverless== NoSQL DB service supports key value model.
 - Designed to run high-performance applications.
 - Scalable to handle millions of user requests.
 - Can handle 10 trillion requests per day.
@@ -345,4 +345,152 @@
 - Customer is responsible about security ==in== the cloud (NACL and SG configuration).
 - ==Patching OS is AWS responsibility if it is RDS (fully-managed), but it is customer responsibility if it is normal EC2 instance==.
 ---
+### IAM #Video28 
+- Service used to ==control== access AWS resources.
+- عندي تيم داتابيز وتيم ستورج..عايز تيم الداتابيز ميكونش له access الا على الداتابيز وكذلك الستورج ميكونش له access الا على ال storage resources.
+##### IAM user
+- user for each person in the team for auditing.
+##### IAM group
+- group of IAM users with same responsibility.
+##### IAM policy
+- JSON document to allow or deny permissions on AWS resources.
+- We attach the policy to IAM user or IAM group ==(Best practice to attach policy to a group instead of user)==.
+- Always follow the ==least privilege security principle== (give permissions as required).
+##### IAM role
+- Used to give ==temporary permission== on resources.
+##### MFA
+- Additional layer of security (OTP).
+##### Root user
+- Created by default and the best practice to disable it, as it has the highest privileges and create another account to use it on daily tasks and only use the root user when needed.
+---
+### AWS organizations #Video29 
+- AWS Organizations is an account management service that enables you to ==consolidate== multiple AWS accounts into an organization that you create and centrally manage.
+- Organizations includes account management and ==consolidated billing== capabilities that enable you to better meet the budgetary, security, and compliance needs of your business.
+- ![[Pasted image 20260224162336.png]]
+##### Benefit of hierarchical grouping
+- We have management account that manages member accounts, and we can group multiple member account is OU and apply policy on the OU.
+- We can control the member account through ==Service Control Policy (SCP), and it is applied on OU==.
+- ![[Pasted image 20260224162348.png]]
+##### Benefit of billing consolidation
+- ![[Pasted image 20260224163032.png]]
+- لو التيرا بدولار في حالة انك اتسهلكت اقل من 10 تيرا ولو اكتر من 10 تيرا هتبقى التيرا ب 0.9 دولار .. وفي اكونت منفصل بيستهلك 3 والتاني بيستهلك 8 والتالت بيستهلك 6 ساعتها كل اكونت هيحاسب لوحده والتيرا هتبقى بدولار.. لكن لو جمعنا الاكونتات دي تحت organization واحدة ساعتها هيبقى كأن الفاتورة واحدة ب 17 تيرا وساعتها التيرا هتبقى ب 0.9 دولار.
+---
+### AWS WAF & Shield #Video30
+##### AWS WAF
+- AWS WAF lets you monitor the HTTP(S) requests (layer 7 protection) and protect against malicious traffic like ==SQL injection and XSS (cross site scripting)==.
+##### AWS Shield
+- Protects against Distributed Denial of Service ==(DDoS)== attack.
+- AWS shield has 2 protection levels:
+	1. ==Shield standard==: protection against ==layer 3 and layer 4 DDoS attacks== with ==no additional cost==.
 
+	2. ==Shield advanced==: protection against ==layer 7 DDoS attacks== with real time reports and metrics, and support from ==Shield Response Team (SRT) from AWS==.
+---
+### AWS security services #Video31 
+##### AWS Artifact
+- AWS Artifact is a self-service portal that provides on-demand ==access to AWS compliance reports and security documentation==.
+##### Amazon GuardDuty
+- Amazon GuardDuty is a threat detection service that monitors and ==analyses the logs and events to identify the anomaly or malicious activities on AWS account==.
+##### Amazon Inspector
+Amazon Inspector is an automated ==software vulnerability== management service.
+#####  Amazon Detective
+- Amazon Detective analyses and visualize security data to get the ==root cause== of the incident.
+---
+### AWS security services #Video32 
+##### AWS secret manager
+- AWS secret manager helps you to manage, store, retrieve and rotate ==database credentials==.
+##### Amazon Macie
+- Amazon Macie is a fully managed data security service that uses machine learning to automatically discover, classify, and protect sensitive data such as ==PII in Amazon S3==.
+##### Amazon Cognito
+- Amazon Cognito lets you add ==sign-in and sign-up== to your web application and also social identity like sign-in with google account or Facebook.
+---
+### AWS security services #Video33 
+###### Data encryption in transit
+- ==Encrypt the traffic from the sender to the receiver==, like encrypting the credit card details while paying online.
+###### Data encryption at rest
+- Encrypt the stored ==data on storage devices==.
+##### AWS certificate manager (ACM)
+- ACM used to provision, manage and deploy public and private ==SSL/TLS certificates== for use
+##### AWS key management service (KMS)
+- KMS is used to provision, manage and control crypto keys that are used to ==encrypt the data at rest==.
+---
+### AWS monitoring and governance #Video34 
+##### Amazon CloudWatch (Monitoring)
+- Collects metrics and logs about the AWS resources.
+- Monitor AWS and on-prem resources.
+- Configure automatic alerts and actions.
+- provide automatic dashboard.
+##### Amazon CloudTrail (Auditing)
+- Auditing service to audit all users, their actions, time of actions and how these actions were taken.
+##### AWS trusted advisors
+- Continuously monitoring the AWS resources and account and provide recommendations according to best practice across several categories like cost optimization, performance, security, fault tolerance and service limits.
+---
+### AWS pricing #Video35 
+##### Free categories
+1. Always free (first 1 million request for lambda every month).
+2. 12-month free.
+3. Free trial.
+##### AWS cost explorer
+- Tool to visualize and manage AWS cost.
+##### AWS budget
+- You set a budget (100$/month) for example, and this service will track the spending and alert you if you are near to become out of budget.
+- It sends notification when:
+	1. Your actual spending reaches 85%.
+	2. Your actual spending reaches 100%.
+	3. Your forecasted spend is expected to reach 100%.
+##### AWS pricing calculator
+- Used to estimate the cost of the AWS resources.
+---
+### AWS cloud migration strategies #Video36 
+##### Retain
+- keep it on-prem
+##### Retire
+- Close the application on-prem as it is not needed anymore.
+##### Rehost
+- Lift and shift, same infrastructure on-prem just moved to cloud.
+##### Replatform
+- Lift, tinker and shift, use some serverless services for example migrate DB on RDS.
+##### Refactor (Re-architect)
+- Huge change in architecture and it takes long time.
+##### Repurchase
+- Drop and shop.
+- Drop the infrastructure and buy SaaS.
+##### Relocate
+- hyp, lift and shift.
+- keep same hypervisor like VMware Esxi.
+- VMware cloud (VMC) on AWS.
+---
+### AWS snow family #Video37 
+##### AWS snowcone
+- Small, rugged and secure physical device offering edge computing , data storage and data transfer on the go in little or no connectivity environment.
+- Snowcone has 2 flavours:
+	1. Snowcone -> 2 vCPUs,  4GB memory and 8 TB HDD.
+	2. Snowcone SSD -> 2 vCPUs, 4GB memory and 14 TB SSD.
+![[Pasted image 20260225221822.png]]
+##### AWS snowball edge
+- Snowball edge has 2 flavours:
+	1. Storage optimized (80 TB HDD or 210TB NVMe).
+	2. Compute optimized (28 TB NVMe or 42 TB HDD).
+---
+### AWS support plans #Video38 
+##### Basic support
+- 24/7 access to customer service.
+- Free access to docs.
+- Provide Personal health dashboard.
+- ==limited access to trusted advisors==.
+##### Developer support
+- Email customer support and get reply within 24 hrs.
+- Reply with 12 hrs with system cases like testing application.
+- ==Great for experimenting, testing or POC==.
+##### Business support
+- ==Full access to trusted advisors==.
+- 24/7 direct phone, web chat.
+- Reply with 4 hrs with system cases and within 1 hrs when production is down.
+- Minimum recommended plan if you have production.
+##### Enterprise Ramp-on
+- Response within 30 minutes for business critical workloads.
+- Access for ==pool== of Technical Account Managers ==(TAM)==.
+- Recommended with production and business critical workloads.
+##### Enterprise support
+- Response time within 15 minute.
+- Access to ==designated TAM==.
+- Recommended for mission critical workloads.
