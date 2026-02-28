@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "50b169789559e97b",
@@ -208,10 +209,11 @@
   },
   "active": "e841a0437d63533d",
   "lastOpenFiles": [
+    "AWS/Pasted image 20260226222945.png",
     "Git & Github/Git.md",
+    "AWS/Practitioner.md",
     "Python/Python.md",
     "Git & Github/Pasted image 20251214181804.png",
-    "AWS/Practitioner.md",
     "AWS/Pasted image 20260225221822.png",
     "AWS/Pasted image 20260224163032.png",
     "AWS/Pasted image 20260224162348.png",

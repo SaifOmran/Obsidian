@@ -40,11 +40,11 @@
 ##### On-Demand
 - Pay as you go without upfront payment
 - No long term commitment
-- Suitable for short term, spike and unpredictable workloads
-- Can NOT be interrupted by AWS.
+- Suitable for ==short term==, spike and ==unpredictable== workloads
+- Can ==NOT be interrupted== by AWS.
 ##### Spot instance
--  The user use the unused EC2 capacity with 90% discount
-- It can be interrupted by AWS at any time. 
+- The user uses the unused EC2 capacity with 90% discount
+- It can be ==interrupted== by AWS at any time. 
 - Used with fault tolerance or stateless workloads or flexible start and end time workloads.
 ##### Reserved instance (saving plan)
 - Reserve instances for 1 or 3 years which will be cheaper than on-demand pricing, and also there is upfront payment.
@@ -97,7 +97,7 @@
 - ==Used to send notification, Email or SMS.==
  ---
 ### Serverless computing (AWS Lambda) #Video8
-- نرجع خطوتين لورا للself-managed EC2 instance اللي كان لازم اظبط ال OS واعمل sizing لل resources بتاعتها..كل ده معناه اني بعمل provisioning .. في ال serverless انا مش بعمل provisioning .. انا بس برفع الكود بتاعي وAWS مسئولة تحدد ال resources اللي الكود محتاجها وبتحاسب بال millisecond لما بيحصل trigger للكود عكس ما كنت بتحاسب بالثانية على ال EC2 instance مادام هي up and running حتى لو بت server شخص واحد.
+- نرجع خطوتين لورا للself-managed EC2 instance اللي كان لازم اظبط ال OS واعمل sizing لل resources بتاعتها..كل ده معناه اني بعمل provisioning .. في ال serverless انا مش بعمل provisioning .. انا بس برفع الكود بتاعي وAWS مسئولة تحدد ال resources اللي الكود محتاجها وبتحاسب بال millisecond لما بيحصل trigger للكود عكس ما كنت بتحاسب بالثانية على ال EC2 instance مادام هي up and running حتى لو بت serve شخص واحد.
 - ==Run code without provisioning and managing infrastructure.==
 - Saves costs as you pay for compute time by ==millisecond==.
 - AWS offers up to 1 million free request / month.
@@ -494,3 +494,72 @@ Amazon Inspector is an automated ==software vulnerability== management service.
 - Response time within 15 minute.
 - Access to ==designated TAM==.
 - Recommended for mission critical workloads.
+---
+### AWS Well Architected Framework (WAF) #Video39 
+- Helps cloud architects to build secure, high performing, resilient and efficient infrastructure for applications and workloads.
+- Built around ==6 pillars==:
+	1. Operational Excellence.
+	2. Security.
+	3. Reliability.
+	4. Performance Efficiency. 
+	5. Cost optimization.
+	6. Sustainability.
+##### Operational Excellence
+- Run and monitor systems to deliver business value and improve supporting process and procedures.
+- Perform operation as a code (Automation).
+- Annotate documentation (Monitoring).
+- Anticipate failure (Monitoring).
+- Refine operations procedures.
+- Make frequent, small and reversible changes.
+##### Security
+- Ensure systems and data protection.
+##### Reliability
+- Ensure that the system can recover automatically, and also auto scale on demand.
+##### Performance efficiency
+- Using the resources efficiently to meet the system requirements.
+- Go global in minutes.
+- Experiment more often.
+- Use serverless architectures.
+##### Cost optimization
+- Run the system with lowest cost and ensure it meets the business value.
+##### Sustainability
+- Minimize the environmental impacts of running cloud workloads.
+---
+### AWS Cloud Adoption Framework (CAF) #Video40 
+- Helps the organizations migrate to cloud using their experience and best practice.
+- ![[Pasted image 20260226222945.png]]
+### AWS Marketplace
+- Digital catalog for customers to find and buy ==third party software== to run their business.
+---
+### AWS AI and Machine learning #Video41 
+##### AWS Rekognition
+- Amazon Rekognition is an Amazon Web Services (AWS) offering that makes it easy to add ==image and video analysis== to applications using deep learning technology, requiring no machine learning expertise.
+- Object detection.
+- Facial detection.
+- Text detection.
+- Unsafe detection.
+##### Amazon Polly
+- Amazon Polly is a ==text-to-speech== service.
+##### Amazon Transcribe
+- Amazon transcribe is a ==speech-to-text== service.
+---
+### AWS AI and Machine learning #Video42
+##### Amazon Translate
+- ==Translation== service.
+##### Amazon Lex
+- Used to build ==interactive chatbot== like siri and alexa.
+##### Amazon comprehend
+- Amazon comprehend uses ==NLP== to extract insights from data.
+- Sentiment analysis.
+- Document classification.
+- Language detection.
+- Entity recognition.
+---
+### AWS AI and Machine learning #Video43
+##### Amazon SageMaker
+- Amazon SageMaker is fully managed service to ==build, train and deploy machine learning models==.
+##### Amazon Kendra
+- Document search service.
+##### Amazon Textract
+- service that is used to extract the handwriting text from documents.
+
