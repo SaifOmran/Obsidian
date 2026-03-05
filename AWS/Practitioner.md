@@ -101,6 +101,7 @@
 - ==Run code without provisioning and managing infrastructure.==
 - Saves costs as you pay for compute time by ==millisecond==.
 - AWS offers up to 1 million free request / month.
+- Maximum execution time is ==15 minutes==.
 ---
 ### Containers #Video9
 ##### Why containers ?
@@ -470,6 +471,8 @@ Amazon Inspector is an automated ==software vulnerability== management service.
 - Snowball edge has 2 flavours:
 	1. Storage optimized (80 TB HDD or 210TB NVMe).
 	2. Compute optimized (28 TB NVMe or 42 TB HDD).
+##### AWS Snowmobile
+- Designed to move massive volumes of data up to 100 PB per unit
 ---
 ### AWS support plans #Video38 
 ##### Basic support
@@ -562,4 +565,15 @@ Amazon Inspector is an automated ==software vulnerability== management service.
 - Document search service.
 ##### Amazon Textract
 - service that is used to extract the handwriting text from documents.
-
+---
+### Notes from solving
+- *AWS step functions* -> fully managed, serverless ==orchestration service== that enables you to build resilient, visual workflows known as state machines to coordinate AWS services, microservices, and SaaS applications, ==loosely coupled architecture==.
+- *Amazon Personalize* -> Enhance your digital transformation with ML, seamlessly integrating personalized ==recommendations== into websites, applications, email system.
+- *AWS Service Catalog* allows IT administrators to ==create, manage==, and distribute curated, pre-approved catalogs of IT services (e.g., virtual machines, databases, application architectures) for end-users to deploy in a ==self-service manner==.
+- *AWS Systems Manager Parameter Store* provides secure, hierarchical, and ==centralized storage for configuration data and secrets==, such as database strings, passwords, and API keys.
+- *AWS CLI* -> unified tool to provide a consistent ==method to interact with AWS services==.
+- Applying updates to the *Nitro Hypervisor* is an AWS responsibility. The Nitro Hypervisor is a component of the underlying infrastructure ==managed by AWS==.
+- *IAM Access Analyzer* -> Find out which ==resources are shared externally== like S3 Buckets, IAM Roles, KMS Keys, Lambda Functions, and Layers SQS queues and Secrets Manager Secrets
+- *AWS Application Discovery Service* -> ==helps enterprises plan migration== projects by automatically identifying on-premises servers, virtual machines, applications, and their dependencies. It ==captures configuration data, performance metrics==.
+- Transferring data to the cloud is free, and also transferring the data between resources in same region or same availability zone.
+- 
