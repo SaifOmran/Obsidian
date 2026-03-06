@@ -513,7 +513,7 @@ Amazon Inspector is an automated ==software vulnerability== management service.
 - Annotate documentation (Monitoring).
 - Anticipate failure (Monitoring).
 - Refine operations procedures.
-- Make frequent, small and reversible changes.
+- ==Make frequent, small and reversible changes.==
 ##### Security
 - Ensure systems and data protection.
 ##### Reliability
@@ -575,5 +575,10 @@ Amazon Inspector is an automated ==software vulnerability== management service.
 - Applying updates to the *Nitro Hypervisor* is an AWS responsibility. The Nitro Hypervisor is a component of the underlying infrastructure ==managed by AWS==.
 - *IAM Access Analyzer* -> Find out which ==resources are shared externally== like S3 Buckets, IAM Roles, KMS Keys, Lambda Functions, and Layers SQS queues and Secrets Manager Secrets
 - *AWS Application Discovery Service* -> ==helps enterprises plan migration== projects by automatically identifying on-premises servers, virtual machines, applications, and their dependencies. It ==captures configuration data, performance metrics==.
-- Transferring data to the cloud is free, and also transferring the data between resources in same region or same availability zone.
-- 
+
+> Transferring data to the cloud is free, and also transferring the data between resources in same region or same availability zone.
+
+- *AWS Firewall Manager* is ==a security management service that centralizes the configuration and deployment of firewall rules across all accounts and resources in== AWS Organizations. It simplifies managing AWS WAF, Shield Advanced, VPC Security Groups, Network Firewall, and Route 53 DNS Firewalls.
+- *Spot Instances* are recommended for stateless, fault-tolerant, flexible applications.
+- *AWS DataSync* migrate data from on prem to cloud with validation and encryption.
+- *Amazon Connect* service to connect customer service and it is AI-powered. 
