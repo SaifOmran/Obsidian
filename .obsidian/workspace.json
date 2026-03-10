@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Docker/Docker.md",
+                "file": "Docker/Gamal Mohamed.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Docker"
+              "title": "Gamal Mohamed"
             }
           },
           {
@@ -35,8 +35,7 @@
               "title": "Gamal Mohamed"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -221,10 +220,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "ccc6dfcf5ef1b3b8",
+  "active": "4bad284b796020c7",
   "lastOpenFiles": [
     "Docker/Docker.md",
     "Docker/Gamal Mohamed.md",
+    "Docker/Pasted image 20260310171817.png",
+    "Bash/Bash.md",
     "Docker/Pasted image 20260307160433.png",
     "AWS/Practitioner.md",
     "Docker",
@@ -238,9 +239,7 @@
     "AWS/Pasted image 20260224162336.png",
     "AWS/Pasted image 20260224161854.png",
     "AWS/Pasted image 20260224161810.png",
-    "Python/Pasted image 20260223104535.png",
     "Python/Python Notes.md",
-    "Bash/Bash.md",
     "OpenStack/Day1.md",
     "Bash",
     "Linux/SElinux.md",
@@ -267,7 +266,6 @@
     "Excalidraw/Drawing 2025-12-19 00.42.02.excalidraw.md",
     "Excalidraw",
     "Linux",
-    "Git & Github",
-    "ISM/Self Study.md"
+    "Git & Github"
   ]
 }
