@@ -21,6 +21,9 @@ docker ps -aq
 - To download image
 ```Docker
 docker pull [image]
+
+# docker pull alpine:2.2.6
+# By default the TAG is "latest".
 ```
 
 - The images are on a *registry*, the registry could be public or private.
@@ -64,7 +67,7 @@ docker stop [container_name]
 ```Docker
 docker update --restart always [container_name]
 
-#docker update --restart always test
+# docker update --restart always test
 ```
 
 ### Docker Architecture
@@ -131,7 +134,7 @@ docker search [image_name]
 ```Docker
 docker rmi [image_name]
 
-#docker rmi httpd:latest
+# docker rmi httpd:latest
 ```
 
 - To remove a container we have to stop it first
@@ -139,30 +142,30 @@ docker rmi [image_name]
 docker stop [container_name]
 docker rm [container_name]
 
-#docker stop lab1
-#docker rm lab1
+# docker stop lab1
+# docker rm lab1
 ```
 
 - We can force remove a container while it is running
 ```Docker
 docker rm -f [container_name]
 
-#docker rm -f lab1
+# docker rm -f lab1
 ```
 
 - To rename a container
 ```Docker
 docker rename [old_name] [new_name]
 
-#docker rename lab1 lab_1_V1.1
+# docker rename lab1 lab_1_V1.1
 ```
 
 - To allocate specific resources for container while creating it
 ```Docker
 docker run -d --name [container_name] --restart always --cpus "no #cpu" --memory [no# memory] [image]
 
-#docker run -d --name lab1 --restart always --cpus "0.5" --memory 100M httpd:latest
-#docker run -d --name lab2 --restart always --cpus 1 --memory 150M httpd:latest
+# docker run -d --name lab1 --restart always --cpus "0.5" --memory 100M httpd:latest
+# docker run -d --name lab2 --restart always --cpus 1 --memory 150M httpd:latest
 
 ```
 
@@ -177,22 +180,22 @@ docker run -d --name [container_name] --restart always --cpus "no #cpu" --memory
 ```Docker
 docker inspect [object_name]
 
-#docker inspect httpd:latest
-#docker inspect lab1
+# docker inspect httpd:latest
+# docker inspect lab1
 ```
 
 - To run command in a running container (ad-hoc command)
 ```Docker
 docker exec [container_name] [command]
 
-#docker exec lab1 ls
+# docker exec lab1 ls
 ```
 
 - To open terminal in a running container (common used)
 ```Docker
 docker exec -ti [container_name] /bin/bash
 
-#docker exec -ti lab1 /bin/bash
+# docker exec -ti lab1 /bin/bash
 ```
 ---
 ### Docker File
@@ -209,7 +212,7 @@ docker exec -ti [container_name] /bin/bash
 ```Docker
 docker commit -m "message" [container_name] [image_name:TAG]
 
-#docker commit -m "vim installed" lab1 httpd-vim:v1.0.1
+# docker commit -m "vim installed" lab1 httpd-vim:v1.0.1
 ```
 
 The "parameters" of a Dockerfile are referred to as instructions or directives, which are commands executed by the Docker engine to build an image.
@@ -239,10 +242,15 @@ The most common and essential Dockerfile instructions include:
 ```Docker
 docker build -t [image_name:TAG] .
 
-#docker build -t myapp:v1.1 .
+# docker build -t myapp:v1.1 .
 
 # . refers to the Dockerfile in the current location, we can replace it by the path of the docker file
 ```
+
+- To push an image we make 3 steps:
+	1. Create repo for the image of DockerHub.
+	2. Create tag for the local image and mount it to the repo.
+	3. Push the image.
 ---
 ### Docker Network
 - Container networking refers to the ability for containers to connect to and communicate with each other, and with non-Docker network services.
@@ -274,18 +282,72 @@ docker network create back_end_net --driver bridge --internal --subnet [net ID] 
 ```Docker
 docker network inspect [network_name]
 
-#docker network inspect back_end_net
+# docker network inspect back_end_net
 ```
 
 - To connect a container to network
 ```Docker
 docker network connect [net_name] [container_name]
 
-#docker network connect back_end_net front
+# docker network connect back_end_net front
 
-#Here we connected a container named "front" with a network named "back_end_net", and this network is configured as bridge internal..so the front container can communicate with the containers in this network and these containers still can NOT access the internet while the "front" container can as it is in the external bridge network.
+# Here we connected a container named "front" with a network named "back_end_net", and this network is configured as bridge internal..so the front container can communicate with the containers in this network and these containers still can NOT access the internet while the "front" container can as it is in the external bridge network.
 ```
 
 >When the container is connected to multiple networks, it is like that the container has multiple vNICs and each one has IP from the network that it is connected to.
+---
+### Docker Volume
+- Docker volume is a component responsible about storing the data of the container, and allows the container to access this data when needed.
+
+- Why we have to store the data outside the container ?
+	1. The container is a temporary process that can be destroyed or removed.
+	2. Data sync between containers.
+	3. Backup of data.
+	4. Process isolation, so if any container wants data from another container, it accesses the docker volume instead of the container itself.
+	5. Reduce image size as the data is not stored on the container.
+	6. Cost saving as the data of multiple containers from one image stored in one place instead of redundancy. 
+
+- Docker volume can be local disk, SAN storage, cloud storage.
+
+- To create new volume
+```Docker
+docker volume create [volume_name]
+
+# docker volume create appdate 
+```
+
+- To list all volumes
+```Docker
+docker volume ls
+```
+
+- To show info about the volume
+```Docker
+docker volume inspect [volume_name]
+
+# docker volume inspect appdate
+
+# Here you will find the mount point of the volume which you will make it the mount point of the logical volume or the partition.
+```
+
+- To create a container and connect it to the created volume
+```Docker
+docker run -d --name [container_name] -p 90:80 --volume [volume_name]:App_data_path
+
+# docker run -d --name apache_web -p 90:80 --volume appdata:/usr/local/apache2
+
+# the app data path is "/usr/local/apache2" as it is apache application.
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
