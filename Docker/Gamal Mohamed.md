@@ -338,9 +338,34 @@ docker run -d --name [container_name] -p 90:80 --volume [volume_name]:App_data_p
 
 # the app data path is "/usr/local/apache2" as it is apache application.
 ```
+---
+### Docker Compose
+- It is a tool to manage multi-container applications.
+- It is a YAML file with the services of my application.
+- Each service is running on a container.
+- It has a fixed name = docker-compose.yml
+- Example of docker-compose
+![[Pasted image 20260316014015.png]]
 
+- To build a docker compose file
+```Docker
+docker compose up -d
+```
 
+- To stop docker compose file
+```Docker
+docker compose stop
+```
 
+- To stop docker compose file
+```Docker
+docker compose start
+```
+
+- To stop and remove containers of docker compose file
+```Docker
+docker compose down
+```
 
 
 
