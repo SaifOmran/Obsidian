@@ -1,0 +1,4 @@
+- SQL port = 3306.
+- SQL data path is */var/lib/mysql*.
+- MySQL need some env to run like root password, database name...etc.
+- WordPress also need env to run

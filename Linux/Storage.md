@@ -114,7 +114,7 @@ An inode is a data structure in Linux filesystems (like ext4) that stores metada
 5. Mount those filesystem or use them as swap space.
 - ==Physical devices->physical volumes->volume group->logical volumes->filesystem->mount==
 - LVM tools segmented the physical volumes into Physical Extents (PE), and logical volumes are created from Logical Extents (LE) mapped into Physical Extents (PE).
-- The default size of the PE = 4 MB.
+	- The default size of the PE = 4 MB.
 #### Demo
 - Using sdb1 and sdc as physical volumes
 1. Create partition to use it as physical volume (100 GB)

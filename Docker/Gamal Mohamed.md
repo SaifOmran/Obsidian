@@ -366,13 +366,26 @@ docker compose start
 ```Docker
 docker compose down
 ```
+---
+### Mumshad Notes
+- Container is running as long as there is a process running on it.
+- We notice when we create a containers with base image like centos or ubuntu that they are not running as there is no running process on them.
+- To run a command while the container is created
+```Docker
+docker run -d --name [container_name] [image] <command>
 
+# docker run -d --name alpine alpine:latest sleep 100
+```
 
+- To run container with the shell
+```Docker
+docker run -d -it --name [container_name] [image] <shell command>
 
+# i -> interactive shell
+# t -> terminal
 
-
-
-
-
-
+# docker run -d -it --name centos centos:latest bash
+# docker run -d -it --name alpine alpine:latest sh
+# docker run -d -it --name ubuntu ubuntu:latest bash
+```
 
