@@ -193,7 +193,7 @@ docker exec [container_name] [command]
 
 - To open terminal in a running container (common used)
 ```Docker
-docker exec -ti [container_name] /bin/bash
+docker exec -ti [container_name] [shell]
 
 # docker exec -ti lab1 /bin/bash
 ```
