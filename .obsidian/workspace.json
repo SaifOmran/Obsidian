@@ -13,28 +13,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Docker/Gamal Mohamed.md",
+                "file": "PowerShell/Powershell.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Gamal Mohamed"
-            }
-          },
-          {
-            "id": "891b70d0495038b4",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "PowerShell/Pasted image 20260510174528.png"
-              },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260510174528"
+              "title": "Powershell"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -219,10 +206,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9af9e0418cc0bfc2",
+  "active": "d72f081bb23d855a",
   "lastOpenFiles": [
-    "PowerShell/Powershell.md",
     "PowerShell/Pasted image 20260510174528.png",
+    "PowerShell/Powershell.md",
     "PowerShell",
     "PowerShell/Pasted image 20260510174225.png",
     "PowerShell/Pasted image 20260510173703.png",

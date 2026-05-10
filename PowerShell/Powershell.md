@@ -175,6 +175,8 @@ Get-Process | where -Handles -gt 1200 | Sort-Object Handles
 
 - There are too many things you can make to objects
 - ![[Pasted image 20260510174528.png]]
+- you can use aliases of the object commands, check them `gal -Definition *object*`
+
 
 - ![[Pasted image 20260510174225.png]]
 - In the previous image, what if you want to get only Id and ProcessName properties ?
@@ -183,12 +185,14 @@ Get-Process | Select-Object -Property Id, ProcessName
 ```
 
 - `$_` -> means the current object passing the pipeline, it is used for filtering
+- `$PSItem` == `$_`
 ```PowerShell
 Get-Service | Where-Object {$_.Status -eq "Running"}
+Get-Service | Where-Object {$PSItem.Status -eq "Running"}
 ```
 
 - In the previous command, every service will be evaluated by its status and if it matches the condition, it will be shown, otherwise it is discarded.
-- 
-
-
-
+> `Where-Object` does 3 steps 
+> 1. Assign the object to `_`
+> 2. Evaluate the code
+> 3. Pass if True, discard if False
