@@ -196,3 +196,39 @@ Get-Service | Where-Object {$PSItem.Status -eq "Running"}
 > 1. Assign the object to `_`
 > 2. Evaluate the code
 > 3. Pass if True, discard if False
+
+### Pipelines Deep Dive
+1. Pass by value -> when the object type is supported by a parameter that accepts the pipeline input and also with same object type
+```PowerShell
+Get-Service | Stop-Service
+```
+
+- Here, `Get-Service` returns object type = System.ServiceProcess.ServiceController, and `Stop-Service` has a parameter with takes this object type, so the pipeline passes the objects by value.
+
+2. Pass by property -> when the object type is not supported by a parameter, but there is a parameter = property of the input objects
+```PowerShell
+[PSCustomObject]@{
+    Name = "Spooler"
+} | Stop-Service
+```
+
+- Here, `PSCustomObject` returns object type = System.Management.Automation.PSCustomObject, and `Stop-Service` doesn't have a parameter that accepts this object type, but it has a parameter = property of `PSCustomObject` (which is Name property), so the pipeline matches between them and choose this parameter implicitly, so it becomes as you have typed
+```PowerShell
+Stop-Serive -Name "Spooler"
+```
+
+3. Customized property -> It is used when you have Pass by property, but the parameter name is not same as the property name, so you customize the property name to equal the parameter name and then it can match.
+![[Pasted image 20260513044050.png]]
+
+4. Extract the property value itself using `Select-Object -ExpandProperty <property>`
+- Imagine there is a parameter that accepts strings only
+```PowerShell
+Stop-Service -Name (Get-Service | Select-Object -ExpandProperty Name)
+# There is a simpler way
+Stop-Service -Name (Get-Service).Name
+```
+
+![[Pasted image 20260513045501.png]]
+
+- Extracting the value using scripting block
+![[Pasted image 20260513050557.png]]

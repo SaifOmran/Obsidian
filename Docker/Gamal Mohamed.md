@@ -241,8 +241,12 @@ The most common and essential Dockerfile instructions include:
 - After creating the docker file, we need to build the image using it
 ```Docker
 docker build -t [image_name:TAG] .
+docker tag [image_name:TAG] [myusername]/[my-repo]:[tag]
+docker push [myusername]/[my-repo]:[tag]
 
 # docker build -t myapp:v1.1 .
+# docker tag myapp:v1.1 saifomran/app:v1.1
+# docker push saifomran/app:v1.1
 
 # . refers to the Dockerfile in the current location, we can replace it by the path of the docker file
 ```
