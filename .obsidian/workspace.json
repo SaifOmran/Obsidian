@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md.md",
+                "file": "k8s/k8s.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README.md"
+              "title": "k8s"
             }
           }
         ],
@@ -237,11 +237,16 @@
   },
   "active": "4ca4261f7b7b6fee",
   "lastOpenFiles": [
+    "k8s/Pasted image 20260523002604.png",
+    "k8s/Pasted image 20260523002558.png",
+    "k8s/Pasted image 20260523002554.png",
     "Docker/Gamal Mohamed.md",
-    "README.md.md",
+    "Docker/Docker.md",
+    "Dependencies.md",
+    "Pasted image 20260517022124.png",
+    "README.md",
     "Docker/Tresmerge.md",
     "Docker/Pasted image 20260514204852.png",
-    "Docker/Docker.md",
     "PowerShell/Powershell.md",
     "PowerShell/Pasted image 20260513050557.png",
     "PowerShell/Pasted image 20260513045501.png",
@@ -258,7 +263,6 @@
     "PowerShell/Pasted image 20260510174225.png",
     "PowerShell/Pasted image 20260510173703.png",
     "Docker/Notes.md",
-    "Dependencies.md",
     "GitHub Actions/GitHub Actions.md",
     "Ansible/Ansible.md",
     "GitHub Actions",
@@ -266,11 +270,8 @@
     "Notes SAA-03.md",
     "AWS/Practitioner.md",
     "Git & Github/Git.md",
-    "k8s/k8s commands.md",
-    "k8s/Pasted image 20260330201456.png",
-    "k8s/Pasted image 20260330201451.png",
+    "k8s/k8s.md",
     "k8s",
-    "Ansible/Pasted image 20260324230918.png",
     "Ansible",
     "Bash/Bash.md",
     "Docker",
@@ -280,7 +281,6 @@
     "Bash",
     "ISM/ISM.md",
     "ISM.rar",
-    "Excalidraw/Drawing 2026-02-08 10.18.09.excalidraw.md",
     "OpenStack",
     "AWS"
   ]

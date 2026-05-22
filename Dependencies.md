@@ -1,107 +1,34 @@
-# 🐳 Docker + Project Workflow (Quick Reference)
+### npm
 
-## 🧠 الفكرة الأساسية
-
-أي مشروع بيعدي بـ 3 مراحل:
-
-1. **Install Dependencies**
-    
-    - تنزيل المكتبات
-        
-    - أمثلة:
-        
-        - Node: `npm install`
-            
-        - Python: `pip install`
-            
-        - Java: `mvn install`
-            
-2. **Build (اختياري)**
-    
-    - تجهيز المشروع (compile / bundle)
-        
-    - أمثلة:
-        
-        - Node: `npm run build`
-            
-        - Java: `mvn package`
-            
-3. **Run**
-    
-    - تشغيل المشروع
-        
-    - أمثلة:
-        
-        - Node: `npm run dev` أو `npm start`
-            
-        - Python: `python app.py`
-            
-        - Java: `java -jar app.jar`
-            
-
----
-
-## 🐳 Docker بيعمل إيه؟
-
-Docker بيحول الـ 3 مراحل دول لصورة (Image):
-
-- `RUN` → للـ Install & Build (وقت بناء الصورة)
-    
-- `CMD` → للـ Run (وقت تشغيل الكونتينر)
-    
-
----
-
-## 🔁 Mapping سريع
-
-|المرحلة|Node|Python|Java|Docker|
-|---|---|---|---|---|
-|Install|npm install|pip install|mvn install|RUN|
-|Build|npm run build|-|mvn package|RUN|
-|Run|npm start|python app.py|java -jar|CMD|
-
----
-
-## ⚠️ أخطاء شائعة
-
-❌ استخدام:
-
-```
-npm run dev
-```
-
-داخل Docker
-
-✔️ لأنه:
-
-- Development only
-    
-- بطيء
-    
-- فيه hot reload
-    
-
----
-
-## ✅ الأفضل في Docker
-
-```
-npm run build
-npm start
-```
-
----
-
-## 💡 قاعدة مهمة
-
-> Dockerfile = Build مرة واحدة + Run وقت التشغيل
-
----
-
-## 🧠 خلاصة
-
-- Docker بيطبق نفس workflow أي مشروع
-    
-- الفرق بس إنك بتكتبه في Dockerfile
-    
-- افهم المراحل (Install → Build → Run) وهتفهم أي مشروع بسهولة
+| Command                       | Purpose                                 |
+| ----------------------------- | --------------------------------------- |
+| `npm install`                 | install dependencies                    |
+| `npm i`                       | shorthand for install                   |
+| `npm install package-name`    | install specific package                |
+| `npm install -D package-name` | install dev dependency                  |
+| `npm uninstall package-name`  | remove package                          |
+| `npm update`                  | update dependencies                     |
+| `npm run build`               | build the application                   |
+| `npm start`                   | start production app                    |
+| `npm run dev`                 | start development server                |
+| `npm test`                    | run tests                               |
+| `npm run script-name`         | run custom script                       |
+| `npm init`                    | create package.json                     |
+| `npm init -y`                 | create package.json بسرعة               |
+| `npm ci`                      | clean install from package-lock         |
+| `npm audit`                   | check security vulnerabilities          |
+| `npm audit fix`               | fix vulnerabilities automatically       |
+| `npm list`                    | show installed packages                 |
+| `npm outdated`                | show outdated packages                  |
+| `npm cache clean --force`     | clear npm cache                         |
+| `npx package-name`            | run package without installing globally |
+### mvn
+| Command             | Purpose                   |
+| ------------------- | ------------------------- |
+| `mvn clean`         | remove old build          |
+| `mvn compile`       | compile Java              |
+| `mvn test`          | run tests                 |
+| `mvn package`       | create jar/war            |
+| `mvn install`       | package + install locally |
+| `mvn clean package` | clean + build             |
+| `mvn clean install` | full common workflow      |

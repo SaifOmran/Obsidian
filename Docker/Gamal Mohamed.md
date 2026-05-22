@@ -232,6 +232,8 @@ The most common and essential Dockerfile instructions include:
 
 - **`ENV`**: Sets environment variables within the image that will be available to the container at runtime. These can be overridden using the `-e` flag with `docker run`.
 
+- **`ARG`** (Argument) defines a build-time variable that allows you to pass information into the image building process without hardcoding it, Unlike environment variables (`ENV`), `ARG` variables are strictly for the build phase and are not available once the container starts running.
+
 - **`EXPOSE`**: Documents which ports the container will listen on at runtime. It is only for documentation and does not actually publish the ports.
 
 - **`WORKDIR`**: Sets the working directory for any subsequent `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, or `ADD` instructions.
@@ -313,6 +315,7 @@ docker network connect [net_name] [container_name]
 
 - Docker volume can be local disk, SAN storage, cloud storage.
 
+### Volumes
 - To create new volume
 ```Docker
 docker volume create [volume_name]
@@ -341,6 +344,17 @@ docker run -d --name [container_name] -p 90:80 --volume [volume_name]:App_data_p
 # docker run -d --name apache_web -p 90:80 --volume appdata:/usr/local/apache2
 
 # the app data path is "/usr/local/apache2" as it is apache application.
+```
+
+### mount biding
+- Used in dev environment for ==hot reload==, which means any change in local file will be applied in the container and vice a verse.
+- It is not secure as someone can remove the files from the container.
+- So, it is 2-way binding.
+- To make it 1-way-binding we add `ro` after mounting.
+```Docker
+docker run -d --name [container_name] -p 90:80 --volume /local/dir/path:/container/path:ro
+
+# docker run -d --name apache_web -p 90:80 --volume /usr/saif/node-project:/usr/local/apache2:ro
 ```
 ---
 ### Docker Compose
