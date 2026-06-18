@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Ansible/Notes from Ansible course (Learn Linux Tv).md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Notes from Ansible course (Learn Linux Tv)"
+              "title": "README"
             }
           }
         ],
@@ -237,15 +237,18 @@
   },
   "active": "9bfc0b5aa7cc64ef",
   "lastOpenFiles": [
+    "Pasted image 20260517022124.png",
+    "Dependencies.md",
+    "Excalidraw/Drawing 2026-01-02 16.36.05.excalidraw.md",
+    "Ansible/Notes from Ansible course (Learn Linux Tv).md",
+    "Docker/Tresmerge.md",
     "Ansible/Ansible-Alaa Mohamed.md",
     "k8s/k8s.md",
-    "Ansible/Notes from Ansible course (Learn Linux Tv).md",
     "Ansible/ad-hoc commands (Learn Linux Tv).md",
     "Netwrok.md",
     "k8s/Pasted image 20260531172942.png",
     "k8s/Pasted image 20260531172900.png",
     "Ansible/Pasted image 20260323210144.png",
-    "Pasted image 20260517022124.png",
     "README.md",
     "PowerShell/Powershell.md",
     "GitHub Actions/GitHub Actions.md",
@@ -254,8 +257,6 @@
     "k8s/Pasted image 20260523002558.png",
     "k8s/Pasted image 20260523002554.png",
     "Docker/Gamal Mohamed.md",
-    "Dependencies.md",
-    "Docker/Tresmerge.md",
     "Docker/Pasted image 20260514204852.png",
     "PowerShell/Pasted image 20260513050557.png",
     "PowerShell/Pasted image 20260513045501.png",
@@ -277,8 +278,6 @@
     "Ansible",
     "Bash/Bash.md",
     "Docker",
-    "Python/Python.md",
-    "Python/Python Notes.md",
     "Bash",
     "ISM.rar",
     "OpenStack",
