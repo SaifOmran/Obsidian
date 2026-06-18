@@ -8,9 +8,9 @@
 - `pause container` -> is a small container that firstly runs in the pod to manage the pod environment, especially to manage the network namespace, and it takes the pod IP, then all other containers join this namespace, and it is running as long as the pod is running but it is almost not consuming any resources.
 ---
 ### Kube-proxy
-- It is the component on the worker node that is responsible about routing the traffic from `service` to the `pods`, simply it handles service-to-pod communication.
+- It is the component on the worker node that is responsible about routing the traffic from `service` to the `pods`, simply it handles ==service-to-pod communication.==
                             ![[Pasted image 20260523002604.png]]
-- Pod-to-Pod communication is handled by `CNI` (container network interface) and Linux kernel, CNI makes interfaces for pods and the routing tables, then Linux kernel forwarding the packets based on the routing table.
+- Pod-to-Pod communication is handled by `CNI` (container network interface) and Linux kernel, CNI makes interfaces and assigns IPs for pods and makes the routing tables, then Linux kernel forwarding the packets based on the routing table.
 - If pods are on different nodes, `CNI` will handle the traffic using overlay encapsulation (VXLAN).
 - `CNI` is responsible to assign IPs to the pods.
 ---
@@ -151,4 +151,28 @@ operator: Exists
 - Keeping old ReplicaSets allows Kubernetes to roll back to a previous stable version if the new version fails.
 
 - This process is called a ==Rolling Update== and ==helps achieve minimal or zero downtime during application updates.==
+---
+### Networking
+- A **network plugin** in Kubernetes (often called a **CNI plugin**) is ==an external software component responsible for provision, configuration, and management of networking interfaces for Pods across a cluster==. Kubernetes purposely does not include a built-in networking implementation. Instead, it relies on these third-party plugins to fulfil the core Kubernetes network model requirements.
+
+- ==Calico, Cilium, and Flannel== are three of the most widely used third-party Container Network Interface (CNI) plugins in **Kubernetes** clusters.
+	-  Calico Uses Layer 3 routing via BGP (Border Gateway Protocol) and provides highly advanced network policy enforcement.
+	- Cilium Leverages eBPF (Extended Berkeley Packet Filter) technology directly in the Linux kernel for ultra-high-performance routing, deep observability, and security filtering.
+	- Flannel A lightweight overlay option that establishes basic VXLAN connectivity across nodes, making it ideal for dev environments or smaller setups.
+
+- In a Kubernetes cluster, **`cni0`** is a virtual Linux network bridge created on a worker node by your CNI (==Container Network Interface==) plugin. It acts as a virtual switch, connecting Pods running on the same node to each other and to the rest of the cluster's network.
+
+- What `cni0` Does ?
+	- **Pod Communication:** It connects one end of a Pod's virtual ethernet (`veth`) pair to the host node's root network, allowing Pods to communicate locally on the node.
+	- **Traffic Routing:** It forwards traffic from Pods to the node's physical interface (e.g., `eth0`) when a Pod needs to communicate with a service or a Pod on a different node.
+	- **Gateway:** It often holds the default gateway IP address (e.g., `10.244.x.1`) for all Pods running on that specific node.
+
+- In a Kubernetes cluster, **veth** (short for **Virtual Ethernet**) is ==a Linux kernel feature that acts like a virtual network cable used to connect a Pod to the worker node's network space through cni0==.
+
+- How a veth Pair Works ?
+	- A veth device is always created in an interconnected pair (a "veth pair"). Any network traffic that enters one end of the virtual cable immediately shoots out of the other end.
+	- When a Container Network Interface (CNI) plugin creates a Pod, it configures the pair across two namespaces
+	- **The Pod End (`eth0`)**: One end of the veth pair is pushed inside the Pod’s network namespace. Inside the Pod, this interface is renamed to `eth0` and is assigned the unique Pod IP address.
+	- **The Host End (`vethXXXX`)**: The other end remains outside in the worker node's "root" network namespace. On the host, it appears with a randomly generated name like `veth01a2b3c` or `vethpl789`.
+
 - 
