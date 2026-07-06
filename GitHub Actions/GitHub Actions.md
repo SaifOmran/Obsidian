@@ -49,3 +49,72 @@ on:
 >This event only trigger the workflow if the changed file in the `src` directory, and the push on the main branch.
 
 - [on.push.branches.tags.branches-ignore.tags-ignore](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushbranchestagsbranches-ignoretags-ignore)
+---
+### Artifacts
+##### Upload the artifacts
+- The [actions/upload-artifact](https://github.com/actions/upload-artifact) GitHub Action ==allows you to save build outputs, logs, and files from your workflow run==. This makes data accessible to subsequent jobs or lets you download the results after the workflow completes.
+- To upload files or directories in your `.github/workflows/*.yml` file, add a step that specifies an artifact `name` and the `path` to the files you want to store.
+```yaml
+- name: Upload Build Artifacts
+  uses: actions/upload-artifact@v4
+  with:
+    name: my-build-artifact
+    path: path/to/artifact/files/
+    retention-days: 90
+```
+
+##### Download the artifacts
+- You can download artifacts in GitHub Actions ==using automated workflow steps, the GitHub web interface, or the GitHub CLI==
+- To download artifacts ==automatically== within a subsequent job of your workflow, use the official [actions/download-artifact](https://github.com/marketplace/actions/upload-a-build-artifact) action.
+```yaml
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build # Ensures this job waits for the build job to finish
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: my-artifact-name # The exact name used during upload
+          path: path/to/extracted/files # Directory where files will save
+```
+---
+### Job outputs
+- **Job outputs** in [GitHub Actions](https://docs.github.com/actions) ==allow you to pass data and string variables from one job to subsequent jobs in a workflow==. To make a job output work, you must write data to the `$GITHUB_OUTPUT` file in a step, map that step's value to a job-level output, and establish a dependency using the `needs` keyword in the receiving job.
+
+- Here is a complete example from the [GitHub Docs](https://docs.github.com/actions/writing-workflows/choosing-what-your-workflow-does/passing-information-between-jobs) demonstrating how to share variables between an upstream job (`build`) and a downstream job (`deploy`)
+```yaml
+name: Shared Job Data Example
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Step 2: Map the step-level outputs to job-level outputs
+    outputs:
+      artifact_version: ${{ steps.set_version.outputs.version }}
+      build_status: ${{ steps.compile.outputs.status }}
+    
+    steps:
+      - name: Generate Version Number
+        id: set_version
+        # Step 1: Write variables to the $GITHUB_OUTPUT environment file
+        run: echo "version=1.4.2" >> "$GITHUB_OUTPUT"
+
+      - name: Compile Code
+        id: compile
+        run: echo "status=success" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    runs-on: ubuntu-latest
+    # Step 3: Establish dependency so this job waits for the first one to finish
+    needs: build
+    
+    steps:
+      - name: Use Upstream Job Outputs
+        # Step 4: Access the data via the needs context
+        run: |
+          echo "Deploying version: ${{ needs.build.outputs.artifact_version }}"
+          echo "The build status was: ${{ needs.build.outputs.build_status }}"
+```
