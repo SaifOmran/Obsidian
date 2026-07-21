@@ -609,3 +609,375 @@ because `src` uses a relative path.
 - `append: yes` preserves existing group memberships.
 - Passwords must be stored as **hashed values**, not plain text.
 - The module is idempotent; running it multiple times does not recreate or modify the user unless changes are required.
+---
+### Variables
+##### Variable Precedence (Quick Summary)
+- `defaults/main.yml` → Lowest precedence.
+- `host_vars` override `group_vars`.
+- `roles/<role>/vars/main.yml` overrides both `group_vars` and `host_vars`.
+- Extra variables (`-e`) have the **highest precedence** and override all other variable sources.
+---
+### Templates
+- Dynamic files (.j2) produced based on the node variables
+- # عندك الـ Project
+
+```
+roles/
+└── webserver/
+    ├── defaults/
+    │   └── main.yml
+    ├── tasks/
+    │   └── main.yml
+    └── templates/
+        └── config.conf.j2
+```
+
+---
+
+## 1) يبدأ ينفذ الـ Playbook
+
+يوصل للـ Task:
+
+```
+- name: Deploy configuration
+  template:
+    src: config.conf.j2
+    dest: /etc/myservice/config.conf
+```
+
+---
+
+## 2) يبحث عن الـ Template
+
+لأنها Role.
+
+Ansible تلقائياً يبحث في:
+
+```
+roles/webserver/templates/
+```
+
+فيلاقي:
+
+```
+config.conf.j2
+```
+
+---
+
+## 3) يقرأ الملف
+
+الملف مثلاً:
+
+```
+# {{ ansible_managed }}
+
+port = {{ web_server_port }}
+
+max_clients = {{ max_clients }}
+
+{% if enable_debug %}
+log_level = debug
+{% else %}
+log_level = info
+{% endif %}
+```
+
+لاحظ إنه **لسه مش Configuration File**.
+
+ده مجرد Template.
+
+---
+
+## 4) يجمع كل الـ Variables
+
+Ansible يبدأ يجمع المتغيرات من:
+
+- defaults
+- vars
+- group_vars
+- host_vars
+- play vars
+- extra vars
+
+طبقاً للـ Variable Precedence.
+
+مثلاً وصل للقيم دي:
+
+```
+web_server_port: 8080
+
+max_clients: 500
+
+enable_debug: true
+```
+
+---
+
+## 5) يبدأ الـ Rendering (Jinja2 Engine)
+
+دلوقتي Jinja2 تقرأ الملف.
+
+### أول سطر
+
+تشوف:
+
+```
+{{ ansible_managed }}
+```
+
+وتحوله مثلاً إلى:
+
+```
+Ansible managed
+```
+
+---
+
+### ثاني سطر
+
+تشوف:
+
+```
+{{ web_server_port }}
+```
+
+وتستبدله بـ
+
+```
+8080
+```
+
+---
+
+### ثالث سطر
+
+تشوف:
+
+```
+{{ max_clients }}
+```
+
+فتكتب:
+
+```
+500
+```
+
+---
+
+### الشرط
+
+تشوف:
+
+```
+{% if enable_debug %}
+```
+
+بما إن:
+
+```
+enable_debug: true
+```
+
+إذاً تكتب:
+
+```
+log_level = debug
+```
+
+وتحذف:
+
+```
+{% else %}
+```
+
+و
+
+```
+{% endif %}
+```
+
+تماماً.
+
+---
+
+## 6) الناتج النهائي
+
+قبل:
+
+```
+# {{ ansible_managed }}
+
+port = {{ web_server_port }}
+
+max_clients = {{ max_clients }}
+
+{% if enable_debug %}
+log_level = debug
+{% else %}
+log_level = info
+{% endif %}
+```
+
+بعد الـ Rendering:
+
+```
+# Ansible managed
+
+port = 8080
+
+max_clients = 500
+
+log_level = debug
+```
+
+شايف؟
+
+بقى Configuration File عادي.
+
+---
+
+## 7) ينسخه للـ Managed Node
+
+بعد ما خلص Rendering.
+
+يعمل تقريباً:
+
+```
+Control Node
+
+config.conf.j2
+        │
+        ▼
+Jinja2 Rendering
+        │
+        ▼
+config.conf
+        │
+        ▼
+Managed Node
+```
+
+ويروح يحطه في:
+
+```
+/etc/myservice/config.conf
+```
+
+---
+
+# طيب لو غيرت Variable؟
+
+مثلاً:
+
+```
+enable_debug: false
+```
+
+هيطلع:
+
+```
+log_level = info
+```
+
+من غير ما تغير الـ Template نفسها.
+
+---
+
+# طيب الـ Loops؟
+
+لو عندك:
+
+```
+{% for user in users %}
+allow {{ user }}
+{% endfor %}
+```
+
+والـ Variable:
+
+```
+users:
+  - saif
+  - ahmed
+  - omar
+```
+
+هيطلع:
+
+```
+allow saif
+allow ahmed
+allow omar
+```
+
+---
+
+# الفرق بين copy و template
+
+## copy
+
+ينسخ الملف كما هو.
+
+```
+index.html
+        │
+        ▼
+Managed Node
+```
+
+---
+
+## template
+
+يقرأ الملف
+
+↓
+
+يحط الـ Variables
+
+↓
+
+ينفذ Conditions
+
+↓
+
+ينفذ Loops
+
+↓
+
+ينتج ملف جديد
+
+↓
+
+ينسخه.
+
+```
+config.j2
+      │
+      ▼
+Jinja2 Engine
+      │
+      ▼
+config.conf
+      │
+      ▼
+Managed Node
+```
+
+---
+
+## الخلاصة
+
+كل مرة تنفذ فيها الـ `template` module، Ansible يعمل بالترتيب:
+
+1. يبحث عن ملف الـ Template داخل `templates/`.
+2. يجمع جميع الـ Variables طبقًا للـ Variable Precedence.
+3. يمرر الملف إلى **Jinja2 Engine**.
+4. يستبدل كل `{{ variable }}` بقيمتها الفعلية.
+5. ينفذ الـ `{% if %}` و`{% for %}` وأي منطق Jinja2 آخر.
+6. ينتج ملفًا نهائيًا (Rendered File).
+7. ينسخ هذا الملف إلى المسار المحدد في `dest` على الـ Managed Host.
+
+**المهم:** الملف الذي يصل إلى الـ Managed Host لا يحتوي على أي كود Jinja2؛ بل يكون ملف Configuration عادي جاهز للاستخدام.

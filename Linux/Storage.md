@@ -34,7 +34,8 @@
 	- `d` -> delete partition (unmount the partition before deletion).
 	- `L` -> show types of the partition.
 	- `w` -> save.
-2. Make filesystem on the partition using `mkfs -t [type of filesystem] [partition]` -> `mkfs -t ext4 /dev/sda1` or `mkfs.[type of FS] [prtition]` -> `mkfs.ext4 /dev/sdb5`.
+2. Make filesystem on the partition using `mkfs -t [type of filesystem] [partition]` -> `mkfs -t ext4 /dev/sda1` 
+   or `mkfs.[type of FS] [prtition]` -> `mkfs.ext4 /dev/sdb5`.
 3. Mount the filesystem to mount point using `mount [filesystem partiton] [mount point]`
 	-> `mount /dev/sda1 /mnt/mydata`.
 	>This is a temporary mounting which will be removed after rebooting.
@@ -50,12 +51,12 @@
 
 - To show the blocks devices on system `lsblk`
 	- `lsblk [device path]` ->show specific device
-	- `lsblk -l` -> show flat list instead of the tree
+	- `lsblk -l` -> show flat list instead of the tree = `fdisk -l`
 	- `lsblk -f` -> show filesystem, UUID and LABEL
 - To show the mounted filesystems `df -hT` h for human-readable size and T to show filesystem type
 -  To modify the partition size we have to delete and create it again with the same starting sector, and we have to resize the filesystem if it supports resizing.
 - We resize the filesystem using `resize2fs [partition with FS]` .
-- If you deleted the partition without unmounting it, the OS may be not feel this deletion and to test that you can see the partitions in */proc/partitions* and you will see deleted partitions, so you have to use `partprobe [device path]` to inform the OS that the partition table is changed, if you made unmounting before the deletion you wouldn't need to make this process.
+- If you deleted the partition without unmounting it, the OS may be not feel this deletion and to test that you can see the partitions in */proc/partitions* and you will see deleted partitions, so you have to use `partprobe [device path]` to ==inform the OS that the partition table is changed==, if you made unmounting before the deletion you wouldn't need to make this process.
 - The extended partition can't have a filesystem as it is just container for the logical partitions that can have.
 - While making the permanent mounting in */etc/fstab*, we may forget the syntax, we can solve this problem by mounting the filesystem using `mount` command, then we dispaly */etc/mtab* file which containing the manually mounted filesystems and copy the line we need and finally paste it on the */etc/fstab* file.
 >If there any error in the */etc/fstab* file this will make the system enter the emergency mode while booting up.
@@ -64,7 +65,7 @@
 
 ---
 ### Managing swap space
-- The swap space is specified based on the memory size
+- The swap space is specified based on the memory size, equals RAM and 2x RAM if hibernation is enabled
 - We need to increase the swap space, we can do this by 2 methods:
 	1. Creating new partition (if there free space).
 		1. Create partition using `fdisk [device path]` and change its type to swap 82 using `t`.
@@ -87,7 +88,7 @@
 ---
 ### Number of inode and its effect on creating files and directories
 #### What is an inode?
-An inode is a data structure in Linux filesystems (like ext4) that stores metadata about a file or directory, such as:
+An inode is a data structure in Linux filesystems (like ext4) that stores metadata about a file or directory except name and the data itself/, such as:
 - File type (file, directory, link, etc.).
 - Permissions.
 - Owner & group.
@@ -134,7 +135,7 @@ An inode is a data structure in Linux filesystems (like ext4) that stores metada
 - To reduce the logical volume we use `lvreduce -r -L -30G [logical volume]`. `-r` to reduce FS.
 	- If we used `-L 30G`, it refers to the exact size.
 - To extend the volume group we use `vgextend [volume group] [physical volume]`.
-- When we need to reduce the volume group, we must move the data from the physical volume we want to remove hence we must have free space in volume group = the size of data on the physical volume we will remove.
+- When we need to reduce the volume group, we must move the data from the physical volume we want to remove hence we must have ==free space in volume group = the size of data on the physical volume we will remove.
 	- Suppose we will remove */dev/sdb1*:
 		- `pvmove /dev/sdb1`.
-		- `vgreduce [volume group]`.
+		- `vgreduce [volume group] /dev/sdb1`.

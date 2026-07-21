@@ -24,11 +24,238 @@
 - If we apply a new rule in a zone without using `--permanent` option, this rule will be applied directly on the kernel (netfilter) and it will be removed after the reboot of the system.
 - When we use `--permanent` option the configuration is saved in */etc/firewalld/zones/[zone_name.xml]*, and we have to reload the service using `firewalld-cmd --reload` (by logic as the files under */etc* are read while booting up, and reload command make the system re-read these file while services are running).
 ### Firewall commands
-- If the firewalld service is stopped we use `firewalld-offline-cmd` for offline configuration.
-- If the firewalld service is running we use `firewalld-cmd` for online configuration.
-- We can add rule by its name using `firewall-cmd --permanent --add-service=ssh`, or by the port number using `firewall-cmd --permanent --add-port=22/tcp`
-- We can remove rule by its name using `firewall-cmd --permanent --remove-service=smtp`, or by the port number using `firewall-cmd --permanent --add-port=25/tcp`.
-- To get the services that can be configured by name on the server, we use `firewall-cmd --get-services`.
-- To get the zones that could be configured on the server, we use `firewall-cmd --get-zones`.
-- To list all the firewall rules that are configured on the server, we use `firewall-cmd --permanent --list-all`.
-- To list of available zones that are configured on the server, we use `firewall-cmd --list-zones`
+
+##### Zone Management
+
+| Command                                | Description                            |
+| -------------------------------------- | -------------------------------------- |
+| `firewall-cmd --get-default-zone`      | Show the default zone                  |
+| `firewall-cmd --set-default-zone=ZONE` | Set the default zone                   |
+| `firewall-cmd --get-zones`             | List all available zones               |
+| `firewall-cmd --get-active-zones`      | Show active zones and their interfaces |
+| `firewall-cmd --zone=ZONE --list-all`  | Show all settings of a zone            |
+
+---
+##### Interface Management
+
+| Command                                                         | Description                          |
+| --------------------------------------------------------------- | ------------------------------------ |
+| `firewall-cmd --zone=ZONE --add-interface=IFACE`                | Add interface to a zone (Runtime)    |
+| `firewall-cmd --zone=ZONE --change-interface=IFACE`             | Move interface to another zone       |
+| `firewall-cmd --permanent --zone=ZONE --change-interface=IFACE` | Move interface permanently           |
+| `firewall-cmd --zone=ZONE --remove-interface=IFACE`             | Remove interface from a zone         |
+| `firewall-cmd --get-zone-of-interface=IFACE`                    | Show which zone an interface belongs |
+
+---
+##### Services
+
+| Command | Description |
+|---------|-------------|
+| `firewall-cmd --get-services` | List all predefined services |
+| `firewall-cmd --list-services` | List allowed services in the default zone |
+| `firewall-cmd --zone=ZONE --list-services` | List services in a specific zone |
+| `firewall-cmd --add-service=http` | Allow a service (Runtime) |
+| `firewall-cmd --remove-service=http` | Remove a service (Runtime) |
+| `firewall-cmd --permanent --add-service=http` | Allow a service permanently |
+| `firewall-cmd --permanent --remove-service=http` | Remove a service permanently |
+
+---
+##### Ports
+
+| Command | Description |
+|---------|-------------|
+| `firewall-cmd --add-port=8080/tcp` | Open a TCP port (Runtime) |
+| `firewall-cmd --remove-port=8080/tcp` | Close a TCP port |
+| `firewall-cmd --permanent --add-port=8080/tcp` | Open a port permanently |
+| `firewall-cmd --permanent --remove-port=8080/tcp` | Close a port permanently |
+| `firewall-cmd --list-ports` | List open ports |
+
+---
+##### Runtime & Permanent
+
+| Command | Description |
+|---------|-------------|
+| `firewall-cmd --reload` | Reload permanent configuration into runtime |
+| `firewall-cmd --runtime-to-permanent` | Save current runtime configuration permanently |
+
+---
+##### Information
+
+| Command | Description |
+|---------|-------------|
+| `firewall-cmd --state` | Check if firewalld is running |
+| `firewall-cmd --version` | Show firewalld version |
+| `firewall-cmd --list-all` | Show all settings of the default zone |
+| `firewall-cmd --zone=ZONE --list-all` | Show all settings of a specific zone |
+
+---
+### Important Notes
+
+##### Runtime vs Permanent
+
+| Runtime | Permanent |
+|----------|-----------|
+| Active immediately | Saved on disk |
+| Lost after reload/restart | Survives reboot |
+| No `--permanent` | Uses `--permanent` |
+
+Example:
+
+```bash
+firewall-cmd --add-service=http
+```
+
+Runtime only.
+
+```bash
+firewall-cmd --permanent --add-service=http
+firewall-cmd --reload
+```
+
+Permanent + applied immediately after reload.
+
+---
+
+### Services vs Ports
+
+Prefer **Services** whenever possible.
+
+```bash
+firewall-cmd --add-service=http
+```
+
+instead of
+
+```bash
+firewall-cmd --add-port=80/tcp
+```
+
+Because a **Service** already knows:
+- Port(s)
+- Protocol(s)
+
+---
+
+### Default Zone
+
+If you don't specify `--zone`, the command applies to the **Default Zone**.
+
+Example:
+
+```bash
+firewall-cmd --permanent --add-service=ssh
+```
+
+Equivalent to:
+
+```bash
+firewall-cmd --permanent --zone=<default_zone> --add-service=ssh
+```
+
+Check the default zone:
+
+```bash
+firewall-cmd --get-default-zone
+```
+
+---
+
+### Interface Rule
+
+Each **Network Interface** belongs to **one Zone only**.
+
+```
+ens33 → public
+ens34 → internal
+```
+
+Traffic entering through an interface is filtered using the rules of its assigned zone.
+
+---
+### Recommended RHCSA Workflow
+
+```bash
+# 1. Add the rule
+firewall-cmd --permanent --add-service=http
+
+# 2. Apply changes
+firewall-cmd --reload
+
+# 3. Verify
+firewall-cmd --list-all
+```
+
+### Rich Rules
+##### Overview
+- **Rich Rules** provide advanced firewall rules beyond simple services and ports.
+- Use them to:
+  - Allow/Deny specific IP addresses or networks.
+  - Filter traffic based on services or ports.
+  - Accept, Reject, or Drop connections.
+
+> **Use Services/Ports for simple rules.**  
+> **Use Rich Rules for advanced filtering.**
+---
+##### Common Commands
+
+| Command | Description |
+|---------|-------------|
+| `--add-rich-rule='RULE'` | Add a rich rule (Runtime) |
+| `--remove-rich-rule='RULE'` | Remove a rich rule |
+| `--permanent --add-rich-rule='RULE'` | Add a rich rule permanently |
+| `--list-rich-rules` | List all rich rules |
+
+---
+##### Syntax
+```bash
+firewall-cmd --add-rich-rule='RULE'
+```
+---
+##### Examples
+###### Allow SSH only from one IP
+```bash
+firewall-cmd --permanent \
+--add-rich-rule='rule family="ipv4" source address="192.168.1.10" service name="ssh" accept'
+```
+---
+###### Block one IP
+```bash
+firewall-cmd --permanent \
+--add-rich-rule='rule family="ipv4" source address="192.168.1.100" drop'
+```
+---
+##### Rule Actions
+
+| Action | Description |
+|---------|-------------|
+| `accept` | Allow traffic |
+| `reject` | Reject traffic and send a response |
+| `drop` | Silently discard traffic |
+
+---
+##### Notes
+- If `--zone` is omitted, the rule is added to the **default zone**.
+- Use `--permanent` to save the rule permanently.
+- Run `firewall-cmd --reload` after adding permanent rules.
+- Rich Rules can filter by:
+  - Source IP
+  - Source Network
+  - Service
+  - Port
+  - Protocol
+---
+##### Quick Revision
+
+| Task | Command |
+|------|---------|
+| Add rich rule | `--add-rich-rule='RULE'` |
+| Remove rich rule | `--remove-rich-rule='RULE'` |
+| List rich rules | `--list-rich-rules` |
+| Save permanently | `--permanent` |
+| Apply changes | `--reload` |
+
+> **Memory Tip**
+>
+> - **Service** → Allow a service for everyone.
+> - **Port** → Open a specific port.
+> - **Rich Rule** → Apply conditions (IP, subnet, service, port, action).
