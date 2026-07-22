@@ -1,45 +1,45 @@
-# Day 1
+### Day 1
 - Data: collection of zeros and ones without meaning.
-- information: collection of structured data that have meaning.
-- structured data: have pattern like DB tables 
-- semi structured: key and value like XML 
-- Quasi structured: between structured and semi structured there is no pattern and no key and value but you can get info
-- unstructured: hard to see a pattern like video and PDF files.
+- Information: collection of structured data that have meaning.
+- Structured data: have pattern like DB tables. 
+- Semi structured: key and value like XML.
+- Quasi structured: between structured and semi structured there is no pattern and no key and value but you can get info, like logs.
+- Unstructured: hard to see a pattern like video and PDF files.
 - Tape was used for backup and archiving, but it is legacy now as it is expensive and slow.
-- Difference between local cloud provider and the hyper scaler: 
-	1- pay easily with local currency.
-	2- Data protection, the data is stored on the same country. 
-- private cloud: only accessed by the owner only, no matter where the infrastructure it is.
+- Difference between local cloud provider and the hyper scaler like AWS or Azure: 
+	1. Pay easily with local currency.
+	2. Data protection, the data is stored on the same country. 
+- Private cloud: only accessed by the owner only, no matter where the infrastructure it is.
 - Types of servers:
-	- 1- Towered: like the case but with powerful resources.
-	- 2- Rack mounted: each server is standalone with its network devices and storage also the cooling system, each server is managed by separate IP. 
-	- 3- Blade: collection of small servers on the same enclosure can be managed by one IP.
+	1. Towered: like the case but with powerful resources.
+	2. Rack mounted: each server is standalone with its network devices and storage also the cooling system, each server is managed by separate IP. 
+	3. Blade: collection of small servers on the same enclosure can be managed by one IP.
 - Virtual memory: some space of the hard disks is used as RAM.
-- LVM: logical volume manager: collect hard disks on same pool called volume group, then we can assign any amount of storage to the servers without downtime.
+- Logical volume manager (LVM): collect hard disks on same pool called volume group, then we can assign any amount of storage to the servers without downtime.
 - Types of file system base:
-	- 1-Disk based: NTFS,FAT32,EXT3,EXT4
-	- 2-Network based: Shared folder
-	- 3-Virtual based: an abstraction layer that allows a system to interact with various underlying file systems in a uniform way, providing a single, consistent interface for applications.
+	1. Disk based: NTFS,FAT32,EXT3,EXT4
+	2. Network based: Shared folder -> NFS and SMB
+	3. Virtual based: an abstraction layer that allows a system to interact with various underlying file systems in a uniform way, providing a single, consistent interface for applications.
 - Bare metal hypervisor: allows more utilization than hosted as there is no main OS that uses the resources.
 - Desktop virtualization: decouples a user's full desktop environment (OS, apps, data) from their physical device, hosting it on a central server or cloud, allowing access from anywhere on any device using thin client.
-- legacy application: monoethnic app which acts as a one unit.
-- modern application: uses microservices architecture, which is better for security and availability.
+- Legacy application: monolithic app which acts as a one unit.
+- Modern application: uses microservices architecture, which is better for security and availability.
 - Software-Defined Data Centre (SDDC) :An IT platform where every aspect of a data centre, including compute, storage, and networking, is virtualized and managed by software. It uses abstraction, resource pooling, and automation to deliver IT-as-a-service and infrastructure-as-a-service (IaaS).
-- green field: building the infrastructure from scratch and taking the best component from best vendor
-- brown field: there are existing components and I need to buy components that have compatibility with them.
-- converged infrastructure: compute-network-storage, storage connected to server using SAN.
+- Green field: building the infrastructure from scratch and taking the best component from best vendor
+- Brown field: there are existing components and I need to buy components that have compatibility with them.
+- Converged infrastructure: compute-network-storage, storage connected to server using SAN.
 - Hyper-converged infrastructure: compute-network, storage built-in server which is faster.
 >   still server pooling for the storage is existed
 ---
-# Day 2
-page 222
-## RAID techniques
+### Day 2
+#page222
+##### RAID techniques
 - Storage box = dummy disks + controller.
-- controller decides the type of the storage (block-level, file-level, object-level or unified)
+- Controller decides the type of the storage (block-level, file-level, object-level or unified)
 - RAID 0: performance and utilization, but low level of protection.
 - RAID 1: protection, but low level of utilization, it is not like a backup as the 2 disk are identical and any change in 1 instantly effects the other, so if any disk got ransomware the other would also, the backup concept means that there is a point in time where the data is copied on another disk.
 - RAID 1+0: low level of utilization, require minimum 4 disks.
-- RAID 3 (stripping with dedicated parity): fault tolerance for one disk, but 1/3 of disk capacity is wasted for the parity, typically not used in production environment.
+- RAID 3 (stripping with dedicated parity): fault tolerance for one disk, but 1 of disks capacity is wasted for the parity, typically ==not used in production environment.==
 	- write penalty = 4.
 		- read old data, read old parity, write new parity, write new data.
 - RAID 5 (stripping with distributed parity): instead of having whole disk for the parity, it is distributed among the disks that contain the data itself (slightly better from RAID 3 due to direct calculations as the data and parity are on the same disk)
@@ -50,18 +50,21 @@ page 222
 	- When a new disk drive is added to the system, data from the hot spare is copied to it. The hot spare returns to its idle state, ready to replace the next failed drive.
 	- Alternatively, the hot spare replaces the failed disk drive permanently. This means that it is no longer a hot spare, and a new hot spare must be configured on the storage system.
 - Types of RAID controller: 
-	- 1-software.
+	- 1-software (doesn't support all types of RAID).
 	- 2-Hardware (preconfigured from the provider).
 ---
 ## Block-based storage system
 - Block-based controller = front end + cache + back end
-	- front end = front end port (connect between server and storage box) + front end controller (responsible for the encapsulation and de-encapsulation of SCSI commands and route data to and from cache through the internal data bus).
+	- front end = front end port (connect between server and storage box) + front end controller (Responsible for processing host I/O requests and routing them to the cache through the internal data bus.).
 	- cache = increase performance as it maintains the most accessible data.
-	- back end = back end port (connected to the physical storage) + back end controller (responsible for the encapsulation and de-encapsulation of SCSI commands and requests + error detection).
-- cache management techniques:
-	- 1- MRU (used when compute system reads the block for only one time).
-	- 2- LRU (more popular as cache discards the data which not used for a long time).
-	- 3- pre-fetch or read-ahead (the controller prepares the data in the cache from the disks based on the I/O requests pattern of the compute system).
+	- back end = back end port (connected to the physical storage) + back end controller (Responsible for communicating with the physical disks, executing read/write operations and error detection).
+- Cache write operation:
+	1. Write-through.
+	2. Write-back.
+- Cache management techniques:
+	1. MRU (used when compute system reads the block for only one time).
+	2. LRU (more popular as cache discards the data which not used for a long time).
+	3. pre-fetch or read-ahead (the controller prepares the data in the cache from the disks based on the I/O requests pattern of the compute system).
 - Write-aside improves performance by preventing large sequential writes from polluting the cache, keeping cache resources available for small random I/O.
 - With dedicated cache, separate sets of memory locations are reserved for reads and writes. In global cache, both reads and writes can use any of the available memory addresses. Cache management is more efficient in a global cache implementation because only one global set of addresses has to be managed.
 - Cache is a volatile memory.
@@ -84,7 +87,7 @@ page 222
 		- Inside this file system, the hypervisor creates virtual disks (VMDK, VHDX).
 		- These virtual disks are then assigned to virtual machines and appear to each VM as a raw drive.
 		- Each VM formats its virtual disk with its own guest file system (NTFS, EXT4, etc.).
-		- Multiple VMs can share the same LUN, because the hypervisor manages access through its file system
+		- Multiple VMs can share the same LUN (same datastore), because the hypervisor manages access through its file system.
 	- 2-LUN Assigned Directly to a Virtual Machine (Direct LUN / RDM / Passthrough
 		- The entire LUN is mapped directly to a single VM.
 		- No virtual disk (no VMDK/VHDX) is created.
@@ -99,7 +102,7 @@ page 222
 	- Virtual (Thin): only needed part of LUN (storage) by the compute system or VM is allocated and the rest is free for any other VMs.
 - Physical disks (storage box) --> Pool (from one storage box)--> *provisioning* --> LUN (from one storage box).
 - Over provisioning: presenting more storage capacity to servers than the physical capacity actually available on the storage system.
-- LUN masking: A process that provides data access control by defining which LUNs a compute system can access.
+- LUN masking: A process that provides data access control by defining which LUNs a compute system can access, and it is applied on the storage array or the storage box.
 ## Storage tiering
 - Establishing hierarchy of storge types (tiers) to store data based on service level requirement at minimal cost.
 - Storage tiers:
@@ -124,24 +127,24 @@ page 222
 	- 1- Zoning (on SAN switch).
 	- 2- Create LUNs (on storage box).
 	- 3- LUN masking (on storage box).
-	- 4- Create the file system (on server).
-	- 5- Create VM (on server).
+	- 4- Create the file system (on server) -> VMFS.
+	- 5- Create VM (on server) -> EXT4,NTFS..etc.
 ---
 ## SAN
 - A network whose primary purpose is the transfer of data between computer systems and storage devices and among storage devices.
 - It enables multiple compute systems to access and share storage resources.
-- the data transfer over SAN can be extended across geographic locations.
+- the data transfer over SAN can be extended across geographic locations (iSCSI, FCIP).
 ---
 ## Types of ports on nodes and switches
 - N-port: node port on server or storage box.
 - F-port: ports on SAN switch connected to storage box or server.
 - E-port: ports between SAN switches.
 - G-port: can be F or E.
-- HBA (front end controller) for storage box = HBA for the servers.
+- Front end port for storage box = HBA for the servers.
 - HBA has WWN and NIC has MAC.
 - WWN = WWNN + WWPN.
 - WWN is used for zoning process.
-- WWN = HBA identifier = LUN identifier
+- WWN = HBA identifier
 ---
 # Day 3
 - Types of the storage

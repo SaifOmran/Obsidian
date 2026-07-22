@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux/Firewall.md",
+                "file": "ISM/ISM.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Firewall"
+              "title": "ISM"
             }
           }
         ],
@@ -237,9 +237,10 @@
   },
   "active": "0f67eb2bdf9c2581",
   "lastOpenFiles": [
+    "Linux/Storage.md",
+    "Ansible/Notes from Ansible course (Learn Linux Tv).md",
     "ISM/ISM.md",
     "Linux/Firewall.md",
-    "Linux/Storage.md",
     "Linux/Jobs Scheduling.md",
     "Untitled.md",
     "VMware/VMware vSphere.md",
@@ -249,7 +250,6 @@
     "Linux/WhatsApp Image 2026-01-04 at 12.11.25 AM.jpeg",
     "Linux/WhatsApp Image 2026-01-03 at 6.33.59 PM 1.jpeg",
     "Linux/WhatsApp Image 2026-01-03 at 6.33.59 PM.jpeg",
-    "Ansible/Notes from Ansible course (Learn Linux Tv).md",
     "VMware/Pasted image 20260714150436.png",
     "VMware",
     "Ansible/Ansible-Alaa Mohamed.md",
