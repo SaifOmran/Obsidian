@@ -157,6 +157,61 @@
 	- 4- Object: storage can communicate through API.
 	- 5- Unified: storage can understand block-level, file-level and API.
 	- The controller decides the type of the storage if it is SAN, NAS, object or unified.
+# FC SAN vs IP SAN
+## FC SAN (Fibre Channel Storage Area Network)
+A dedicated, high-speed storage network that uses specialized hardware such as **Host Bus Adapters (HBAs)** and **Fibre Channel switches** to transport **block-level data**.
+### Advantages
+- Highest throughput and lowest latency.
+- Virtually lossless communication.
+- Handles high IOPS without network congestion.
+- Dedicated physical network, so storage traffic is isolated from LAN traffic.
+
+### Disadvantages
+- High cost.
+- Requires specialized hardware:
+  - HBAs
+  - FC Switches
+  - Fiber optic cables and transceivers
+
+### Best Use Cases
+- Mission-critical enterprise applications.
+- Large databases (Oracle, Microsoft SQL Server).
+- Large virtualization environments (VMware, Hyper-V).
+---
+## IP SAN
+A storage network that uses **standard Ethernet** and **TCP/IP**, typically through the **iSCSI protocol**, to transport **block-level data**.
+
+### Advantages
+- Lower cost.
+- Uses existing Ethernet infrastructure.
+- Easy to deploy and scale.
+- Supports LAN, WAN, and long-distance connectivity.
+- Ideal for disaster recovery (DR) and remote replication.
+
+### Disadvantages
+- Higher latency than FC SAN.
+- Lower throughput due to TCP/IP overhead.
+- Storage traffic may compete with normal LAN traffic if sharing the same network.
+
+### Best Use Cases
+- Small and medium-sized businesses (SMBs).
+- General-purpose storage.
+- Secondary storage.
+- Environments where budget is more important than ultra-low latency.
+---
+# FC SAN vs IP SAN
+
+| Feature     | FC SAN                                          | IP SAN                            |
+| ----------- | ----------------------------------------------- | --------------------------------- |
+| Network     | Dedicated Fibre Channel                         | Ethernet (TCP/IP)                 |
+| Protocol    | Fibre Channel                                   | iSCSI                             |
+| Hardware    | HBA + FC Switches                               | Standard NIC + Ethernet Switches  |
+| Performance | Very High                                       | Moderate                          |
+| Latency     | Very Low                                        | Higher                            |
+| Cost        | High                                            | Low                               |
+| Scalability | Moderate                                        | Easy                              |
+| Distance    | Short to Medium                                 | LAN, WAN, Internet                |
+| Best For    | Enterprise workloads, databases, virtualization | SMBs, general storage, backup, DR |
 ## FC SAN
 - uses FC protocol to transfer the storage traffic.
 - It is expensive as it requires special components such as HBAs and SAN switches.
@@ -165,8 +220,11 @@
 - Uses TCP/IP to transfer the storage traffic.
 - More economical than FC SAN infrastructure as it uses the same network infrastructure.
 - Allows the long distance SANs to connect to each other over IP network, which used for disaster recovery solutions.
+---
+# Storage protocols
 ## FC
-- Most used.
+- The Fibre Channel Protocol (FCP) is a high-speed, lossless networking technology used in enterprise data centers to connect servers to shared storage devices. It primarily transmits SCSI commands over a Fibre Channel network, allowing for massive data transfers
+- Most common used.
 - Initiator = HBA (server) has SCSI-to-FC processing capability. It encapsulates operating system or hypervisor storage I/Os (usually SCSI I/O) into FC frames before sending the frames to the FC storage systems over an FC SAN.
 - Target = front-end port (Storage box).
 - Interconnecting device:
@@ -195,21 +253,58 @@
 - FC cons:
 	- Expensive as all the components (SAN switch + HBA that encapsulates and de-encapsulates the storage traffic) were not existed in our environment.
 	- Complex: servers connected to storage boxes with L2 switches (for management) and SAN switch for data transfer.
-- SCSI command -> FCP -> FC frame
-## ISCSI
-- Used in start-ups as it is cheap and easy to implement.
-- initiator:
-	- NIC + ISCSI SW: the server CPU handles ISCSI functionality and TCP/IP functionality.
-	- TOE NIC + ISCSI SW: TCP offload engine. TCP functionality on ToE NIC and ISCSI handled by the server.
-	- ISCSI HBA: Performs both iSCSI and TCP/IP processing, the server does NOT handle anything, frees-up CPU cycles of compute system for business applications.
-	- Target: front end port.
-	- interconnecting device: L2 switch (Ethernet LAN).
-	- ==IP-based protocol that enables transporting SCSI data over an IP network==
-	- Encapsulates SCSI I/O into IP packets and transports them using TCP/IP
-	- IP-based protocol that is used to interconnect distributed FC SAN islands over an IP network.
+- Application -> Operating System -> SCSI Command -> HBA -> Encapsulation into Fibre Channel Protocol -> FC Frame -> SAN Switch -> Storage Front-End Port -> Front-End Controller -> Cache -> (Cache Hit? Return Data : Cache Miss? Continue) -> Back-End Controller -> Back-End Port -> Physical Disks
+## iSCSI
+- A cost-effective block storage protocol that transports **SCSI commands over TCP/IP** using standard Ethernet networks.
+
+### Why use iSCSI?
+- Lower cost than Fibre Channel.
+- Easy to deploy using existing Ethernet infrastructure.
+- Commonly used by startups and SMBs due to its low cost and simplicity.
+
+### iSCSI Initiator Types
+
+#### 1. Software Initiator (NIC + iSCSI Software)
+- Uses a standard NIC.
+- iSCSI processing is handled by the host CPU.
+- TCP/IP processing is also handled by the host CPU.
+
+```text
+SCSI -> iSCSI -> TCP -> IP -> Ethernet
+          ▲        ▲
+      Host CPU  Host CPU
+```
+---
+#### 2. TOE NIC + iSCSI Software
+- Uses a **TCP Offload Engine (TOE) NIC**.
+- TCP/IP processing is offloaded to the TOE NIC.
+- iSCSI processing is still handled by the host CPU.
+
+```text
+SCSI -> iSCSI -> TCP -> IP -> Ethernet
+          ▲        ▲
+      Host CPU   TOE NIC
+```
+---
+#### 3. iSCSI HBA (Hardware Initiator)
+- Uses an **iSCSI HBA**.
+- Performs both **iSCSI** and **TCP/IP** processing in hardware.
+- The server CPU is not involved in storage protocol processing.
+- Frees CPU resources for business applications.
+- Offers the best performance among iSCSI initiators.
+
+```text
+SCSI -> iSCSI -> TCP -> IP -> Ethernet
+          └──────────────┘
+             iSCSI HBA
+```
+
+- interconnecting device: L2 switch (Ethernet LAN).
+- ==IP-based protocol that enables transporting SCSI data over an IP network==
+- Encapsulates SCSI I/O into IP packets and transports them using TCP/IP
 - iSCSI Connectivity:
 	- 1- Native
-		- iSCSI initiators connect to iSCSI targets directly/through IP network  No FC component
+		- iSCSI initiators connect to iSCSI targets directly/through IP network
 		- No FC component
 		- ![[Pasted image 20251210215550.png]]
 	- 2- Bridged
@@ -242,15 +337,35 @@
 - FCIP gateway encapsulates FC frame into network frame to route it to the other site.
 - ![[WhatsApp Image 2025-12-09 at 23.08.11_0b940bc1 1.jpg]]
 - ![[Pasted image 20251210204116.png]]
-- 
-## FCoE
-- initiator: converge network adapter (CNA) can act as NIC and HBA.
-- target: front-end port (Storage box).
-- interconnecting devices : FCoE switch can act as L2 switch and SAN switch.
-- Mix of FC and ISCSI as it uses the network physical layers from ISCSI as it is cheap (no need to additional devices) and FC-layers which are lossless for reliability.
-- we need CNA as it uses network layers (NIC) then FC-layers (HBA).
-- The network becomes converged enhanced ethernet (CEE).
-- FCoE is connected to SAN switch
+---
+## FCoE (Fibre Channel over Ethernet)
+- Transports **Fibre Channel frames over Ethernet** without using TCP/IP.
+- Combines the reliability and low latency of **Fibre Channel** with the lower cost of **Ethernet infrastructure**.
+
+### Components
+- **Initiator:** Converged Network Adapter (CNA)
+  - Combines the functionality of a **NIC** and an **FC HBA** in a single adapter.
+
+- **Target:** Storage Front-End Port (supports FCoE).
+
+- **Interconnecting Device:** FCoE Switch
+  - Acts as both an **Ethernet Layer 2 Switch** and a **Fibre Channel Forwarder (FCF)**.
+  - Bridges the Ethernet network with the Fibre Channel fabric.
+
+### Why FCoE?
+- Uses the **Ethernet physical infrastructure** (cables and switches), reducing the need for separate FC cabling.
+- Preserves the **Fibre Channel protocol**, providing low latency and lossless transport.
+- Eliminates the TCP/IP overhead found in iSCSI.
+
+### Why is a CNA required?
+- A CNA combines the functions of a **NIC** and an **FC HBA**.
+- It encapsulates Fibre Channel frames into Ethernet frames and decapsulates them at the destination.
+
+### Network Requirement
+- Requires **Converged Enhanced Ethernet (CEE)**, also known as **Data Center Bridging (DCB)**, to provide a lossless Ethernet network.
+
+### Connectivity
+- Server (CNA) → FCoE Switch → Storage Front-End Port
 ---
 ## File system 
 - NAS: it is file sharing storage using TCP/IP stack.
@@ -258,15 +373,19 @@
 - Client-server file sharing model : server decides the permissions and once someone opened the file it becomes locked for the rest EX: NFS,CIFS.
 - distributed file system model: each client has chunk of data and each one shares it (uTorrent) EX: Hadoop.
 ---
-## Object storage
-- All objects are stored on the same line (flat address space), so we can get the data at the same time
-- each object has:
-	- object = data.
-	- metadata = some info (owner, type, date, permissions).
-	- Defined attributes (key): for easy query.
-- Use API calls.
+## Object Storage
+- Stores data as **objects** in a **flat address space** (no hierarchical directory structure like folders and subfolders).
+- Each object consists of:
+  - **Object (Data):** The actual file or content.
+  - **Metadata:** Information about the object (e.g., owner, type, creation date, permissions).
+  - **Key (Unique Identifier):** A unique identifier used to locate and retrieve the object.
+- Objects are accessed using **API calls** (e.g., REST APIs such as GET, PUT, DELETE).
+- Designed for massive scalability and unstructured data.
+- Examples:
+	 - AWS S3
+	  - Azure Blob Storage
 ## Unified storage
-- can serve block-level (SAN) ,file-level (NAS), object-level (OSD).
+- Can serve block-level (SAN) ,file-level (NAS).
 ---
 ## Business continuity
 - information availability (IA): ensure that the info is available, accessible in timeliness and consistent (info integrity).

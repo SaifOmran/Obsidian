@@ -6,7 +6,7 @@
 	- USB.
 	- CD.
 4. Once the boot device is hard disk with MBR partition style, so the CPU will check the first sector of the hard disk which contains
-	- Partition table = 16 byte
+	- Partition table = 64 byte
 	- Boot loader/Boot code = 446 byte, and it stores the $1^{st}$ stage boot loader which points to the location of $2^{nd}$ stage boot loader file */boot/grub2/grub.cfg*.
 	- Magic number = 2 byte
 5. Grub takes the control and load the grub menu which contains the entries (kernels) stored in */boot/loader/entries* and we choose one of the kernels.
@@ -39,6 +39,10 @@
 ### Root password recovery 
 - ##### Method 1
 	- ![[WhatsApp Image 2026-01-04 at 12.11.25 AM.jpeg]]
+	- ![[Pasted image 20260723195639.png]]
+	- ![[Pasted image 20260723195649.png]]
+	- ![[Pasted image 20260723195708.png]]
+
 - ##### Method 2
 	- ![[WhatsApp Image 2026-01-04 at 12.11.31 AM.jpeg]]
 ---
@@ -77,23 +81,32 @@
 	- To switch to specific target we use `systemctl isolate [target]`.
 	- To show the default target we use `systemctl get-default`.
 	- To set to specific default target we use `systemctl set-default [target]` and it is stored in */etc/systemd/system/default.target.
+	- ![[Pasted image 20260723200538.png]]
+
 - If we set the default target to reboot.target, system will enter infinite loop as we will choose the kernel and the kernel will be loaded into memory and the / partition will be mounted and the root will be changed to real time root and when systemd re-execute itself we will go back to the grub menu again, how can we solve this problem ? the answer is by changing the target while booting up by passing the new target will the kernel is loaded to memory, we will type `systemd.unit=rescue.target`
 	- ![[Pasted image 20260104222854.png]]
 ---
 ### Systemctl commands
-| Command                                       | Description                    |
-| --------------------------------------------- | ------------------------------ |
-| systemctl status service [service_name]       | Show service status            |
-| systemctl start service [service_name]        | Start a service                |
-| systemctl stop service [service_name]         | Stop a service                 |
-| systemctl restart service [service_name]      | Restart a service              |
-| systemctl reload service [service_name]       | Reload config without restart  |
-| systemctl enable service [service_name]       | Enable service at boot         |
-| systemctl disable service [service_name]      | Disable service at boot        |
-| systemctl is-enabled service [service_name]   | Check if enabled at boot       |
-| systemctl is-active service [service_name]    | Check if running               |
-| systemctl list-units --type=service           | List active units              |
-| systemctl get-default [systemd.target]        | Show default target            |
-| systemctl set-default target [systemd.target] | Set default target             |
-| systemctl mask [service_name]                 | Doesn't start service anyway   |
-| systemctl umask [service_name]                | Remove the lock on the service |
+| Command                                       | Description                          |
+| --------------------------------------------- | ------------------------------------ |
+| systemctl status service [service_name]       | Show service status                  |
+| systemctl start service [service_name]        | Start a service                      |
+| systemctl stop service [service_name]         | Stop a service                       |
+| systemctl restart service [service_name]      | Restart a service                    |
+| systemctl reload service [service_name]       | Reload config without restart        |
+| systemctl enable service [service_name]       | Enable service at boot               |
+| systemctl disable service [service_name]      | Disable service at boot              |
+| systemctl is-enabled service [service_name]   | Check if enabled at boot             |
+| systemctl is-active service [service_name]    | Check if running                     |
+| systemctl list-units --type=service           | List active units                    |
+| systemctl get-default [systemd.target]        | Show default target                  |
+| systemctl set-default target [systemd.target] | Set default target                   |
+| systemctl mask [service_name]                 | Doesn't start service anyway         |
+| systemctl umask [service_name]                | Remove the lock on the service       |
+| systemctl poweroff = poweroff (symbolic link) | Poweroff the system instantly        |
+| systemctl reboot = reboot (symbolic link)     | Reboot the system instantly          |
+| shutdown                                      | Shutdown the system after one minute |
+| shutdown -r                                   | Reboot the system after one minute   |
+| shutdown now                                  | Shutdown the system instantly        |
+| shutdown -r now                               | Reboot the system instantly          |
+| shutdown -c                                   | Cancel scheduled poweroff or reboot  |
