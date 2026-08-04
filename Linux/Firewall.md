@@ -22,7 +22,7 @@
 - The path of the predefined services is */usr/lib/firewalld/services*.
 ### Permanent vs Runtime configurations
 - If we apply a new rule in a zone without using `--permanent` option, this rule will be applied directly on the kernel (netfilter) and it will be removed after the reboot of the system.
-- When we use `--permanent` option the configuration is saved in */etc/firewalld/zones/[zone_name.xml]*, and we have to reload the service using `firewalld-cmd --reload` (by logic as the files under */etc* are read while booting up, and reload command make the system re-read these file while services are running).
+- When we use `--permanent` option the configuration is saved in */etc/firewalld/zones/[zone_name.xml]*, and we have to reload the service using `firewall-cmd --reload` (by logic as the files under */etc* are read while booting up, and reload command make the system re-read these file while services are running).
 ### Firewall commands
 
 ##### Zone Management

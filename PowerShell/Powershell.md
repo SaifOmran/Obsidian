@@ -160,7 +160,7 @@ Get-Module -ListAvailable
 	- ![[Pasted image 20260510173703.png]]
 - To show all properties and methods of objects pipe it to `Get-Member == gm`
 ```Powershell
-Get-Process | gm
+		Get-Process | gm
 ```
 
 - To filter the process to only get the process with number higher than 1200
